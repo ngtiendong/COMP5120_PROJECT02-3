@@ -71,27 +71,14 @@ Net-Zero 2050 is the core benchmark of climate policy.  Visualising real-world p
 
 ---
 
-## 6  Weekly Plan (4-week sprint, solo)  
+## 6  Weekly Plan (4-week sprint)  
+| Week | **Dong** | **Minh** | Deliverable |
+|------|----------------------------|--------------------------------|-------------|
+| 1 | • Design repo structure<br>• Download Kaggle dataset<br>• Write & debug `crawl_climatewatch.py`<br>• Draft data dictionary skeleton | • Verify ISO-3 country codes & variable names<br>• Collect API doc links & licence notes | `/data/raw/` populated; working crawler; initial data-dictionary .md |
+| 2 | • Develop `01_clean.R` (tidy, derive carbon-intensity & renewable shares)<br>• Push processed CSVs | • Run QA checks on missing values & units<br>• Create quick EDA plots for sanity check | `/data/processed/*.csv`; `explore.qmd` with validation plots |
+| 3 | • Compute metrics for RQ 1 & 2 (dplyr)<br>• Build core ggplots (line, slopegraph, small-multiple)<br>• Refine colour palette & annotation | • Test charts for readability on mobile & dark-mode<br>• Draft narrative captions | `analysis.qmd` with polished static charts & captions |
+| 4 | • Assemble Shiny/Quarto dashboard (filters, Net-Zero summary panel)<br>• Write final report/proposal PDF | • Style dashboard UI, add accessibility labels<br>• Proof-read report & references | Deployable dashboard folder; `proposal.pdf` ready for submission |
 
-* **Week 1 – Data Foundation**  
-  *Task*  Create repo structure; download Kaggle energy CSVs; code and test Climate Watch crawler; write initial data dictionary.  
-  *Deliverable*  `/data/raw/` with original files and working `crawl_climatewatch.py`.  
-  *Member*: both
-
-* **Week 2 – Cleaning & Exploration**  
-  *Task*  Develop `01_clean.R` to tidy both datasets, derive carbon intensity and renewable shares, export processed CSVs; run exploratory ggplots for sanity checks.  
-  *Deliverable*  `/data/processed/*.csv` plus `explore.qmd` notebook.  
-  *Member*: both
-
-* **Week 3 – Analysis & Visual Design**  
-  *Task*  Compute metrics for RQ 1 & 2, craft core ggplots (line charts, slopegraphs, small multiples), refine colour palette and annotations.  
-  *Deliverable*  `analysis.qmd` containing ready-to-embed charts and draft narrative.  
-  *Member*: Dong 
-
-* **Week 4 – Interactive Story & Final Report**  
-  *Task*  Wrap visuals into a Shiny or Quarto dashboard with region/fuel filters; add a “distance to Net-Zero” summary panel; write final proposal/report; polish styling.  
-  *Deliverable*  deployable dashboard directory and final `proposal.pdf` for submission.  
-  *Member*: Dong and Minh
 
 ---
 
