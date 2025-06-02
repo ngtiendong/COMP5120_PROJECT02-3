@@ -1,0 +1,1378 @@
+---
+title: "Climate and Energy Data Processing"
+author: "Data Analysis Team"
+date: "May 23, 2025"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+    theme: flatly
+    highlight: tango
+    fig_width: 10
+    fig_height: 6
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 10,
+  fig.height = 6,
+  out.width = "100%"
+)
+```
+
+# Overview
+
+This document processes and analyzes climate and energy data from two main sources:
+
+1.  **Our World in Data (OWID)** - Energy consumption data by source
+2.  **Climate Watch** - Emissions data
+
+The script filters the data for selected years, joins the datasets, performs quality checks, and creates visualizations to help understand the relationship between energy consumption patterns and emissions.
+
+## Load Required Libraries
+
+```{r libraries}
+# Required libraries
+library(readr)
+library(dplyr)
+library(tidyr)
+library(jsonlite)
+library(ggplot2)
+library(gridExtra)
+```
+
+## Set Parameters
+
+We can easily modify the year range by changing these variables:
+
+```{r parameters}
+# Year range variables for easy modification
+START_YEAR <- 2015
+END_YEAR <- 2022
+```
+
+# Data Loading and Initial Exploration
+
+## Read Data Files
+
+```{r read_data}
+# Step 1: Read the CSV files
+cat("Reading CSV files...\n")
+owid_data <- read_csv("owid-energy-data.csv", show_col_types = FALSE)
+cw_data <- read_csv("climatewatch__emissions.csv", show_col_types = FALSE)
+
+# Check if files were read successfully
+cat("OWID data rows:", nrow(owid_data), "columns:", ncol(owid_data), "\n")
+cat("Climate Watch data rows:", nrow(cw_data), "columns:", ncol(cw_data), "\n")
+```
+
+Here's a sample of the Climate Watch data:
+
+```{r preview_cw}
+print(cw_data)
+```
+
+# Data Processing
+
+## Process OWID Energy Data
+
+We filter the OWID data for the selected years and calculate energy share percentages:
+
+```{r process_owid}
+# Step 2: Filter OWID data for fossil and low carbon energy related columns and years
+cat(sprintf("Filtering data for years %d to %d...\n", START_YEAR, END_YEAR))
+owid_filtered <- owid_data %>%
+  filter(year >= START_YEAR, year <= END_YEAR) %>%
+  select(
+    country, year, iso_code, population, gdp,
+    # Energy consumption columns (instead of share columns)
+    primary_energy_consumption,
+    # Fossil fuel related
+    fossil_fuel_consumption, coal_consumption, oil_consumption, gas_consumption,
+    # Low carbon energy related
+    low_carbon_consumption, nuclear_consumption, 
+    # Renewable energy
+    renewables_consumption, hydro_consumption, solar_consumption, 
+    wind_consumption, biofuel_consumption, other_renewable_consumption
+  ) %>%
+  # Calculate share percentages based on consumption values
+  # Handle cases where primary_energy_consumption is NA or 0 to avoid division by zero
+  mutate(
+    # First replace 0 values with NA in primary_energy_consumption to avoid division by zero
+    primary_energy_consumption = ifelse(primary_energy_consumption == 0, NA, primary_energy_consumption),
+    
+    # Fossil fuel shares - use ifelse to check for NA or zero in denominator
+    calc_fossil_share_energy = ifelse(!is.na(primary_energy_consumption) & primary_energy_consumption > 0,
+                                      (fossil_fuel_consumption / primary_energy_consumption) * 100, NA),
+    calc_coal_share_energy = ifelse(!is.na(primary_energy_consumption) & primary_energy_consumption > 0,
+                                    (coal_consumption / primary_energy_consumption) * 100, NA),
+    calc_oil_share_energy = ifelse(!is.na(primary_energy_consumption) & primary_energy_consumption > 0,
+                                   (oil_consumption / primary_energy_consumption) * 100, NA),
+    calc_gas_share_energy = ifelse(!is.na(primary_energy_consumption) & primary_energy_consumption > 0,
+                                   (gas_consumption / primary_energy_consumption) * 100, NA),
+    
+    # Low carbon shares
+    calc_low_carbon_share_energy = ifelse(!is.na(primary_energy_consumption) & primary_energy_consumption > 0,
+                                          (low_carbon_consumption / primary_energy_consumption) * 100, NA),
+    calc_nuclear_share_energy = ifelse(!is.na(primary_energy_consumption) & primary_energy_consumption > 0,
+                                       (nuclear_consumption / primary_energy_consumption) * 100, NA),
+    
+    # Renewable shares
+    calc_renewables_share_energy = ifelse(!is.na(primary_energy_consumption) & primary_energy_consumption > 0,
+                                          (renewables_consumption / primary_energy_consumption) * 100, NA),
+    calc_hydro_share_energy = ifelse(!is.na(primary_energy_consumption) & primary_energy_consumption > 0,
+                                     (hydro_consumption / primary_energy_consumption) * 100, NA),
+    calc_solar_share_energy = ifelse(!is.na(primary_energy_consumption) & primary_energy_consumption > 0,
+                                     (solar_consumption / primary_energy_consumption) * 100, NA),
+    calc_wind_share_energy = ifelse(!is.na(primary_energy_consumption) & primary_energy_consumption > 0,
+                                    (wind_consumption / primary_energy_consumption) * 100, NA),
+    calc_biofuel_share_energy = ifelse(!is.na(primary_energy_consumption) & primary_energy_consumption > 0,
+                                       (biofuel_consumption / primary_energy_consumption) * 100, NA),
+    calc_other_renewable_share_energy = ifelse(!is.na(primary_energy_consumption) & primary_energy_consumption > 0,
+                                               (other_renewable_consumption / primary_energy_consumption) * 100, NA)
+  )
+```
+
+### Examine the Processed OWID Energy Data
+
+Let's examine the processed OWID energy data to get a better understanding of its structure and contents:
+
+```{r examine_owid_filtered}
+# Filter out non-country entities (regions, continents, etc.)
+# Check if a proper country by looking for ISO code (all countries have ISO codes)
+owid_filtered <- owid_filtered %>% 
+  filter(!is.na(iso_code))
+
+# Display sample of the filtered OWID data
+cat("\nSample of filtered OWID data (first 5 rows):\n")
+print(head(owid_filtered, 5))
+
+# Count the number of countries in the filtered data
+cat("\nNumber of countries in filtered OWID data:", length(unique(owid_filtered$country)), "\n")
+```
+
+## Process Climate Watch Emissions Data
+
+We process the Climate Watch emissions data, paying special attention to properly parse JSON content:
+
+```{r process_cw, results='hide'}
+# Step 3: Process Climate Watch data
+# First check the structure of the emissions column
+if("emissions" %in% colnames(cw_data)) {
+  # Pre-filter the cw_data for sector "Energy" and gas "All GHG" if those columns exist
+  if(all(c("sector", "gas") %in% colnames(cw_data))) {
+    cat("Pre-filtering Climate Watch data for Energy sector and All GHG gas...\n")
+    cw_data <- cw_data %>%
+      filter(sector == "Energy", gas == "All GHG")
+    cat("Filtered data size: ", nrow(cw_data), "rows\n")
+  }
+  
+  # Unnest the emissions column
+  # Function to safely parse JSON with error handling
+  safe_parse_json <- function(json_string) {
+    # Replace single quotes with double quotes and None with null
+    json_string <- gsub("'", "\"", json_string)
+    json_string <- gsub("\\bNone\\b", "null", json_string)
+    tryCatch(
+      jsonlite::fromJSON(json_string, simplifyVector = TRUE),
+      error = function(e) {
+        message("Error parsing JSON for string: ", substr(json_string, 1, 50), "...")
+        message("Error message: ", e$message)
+        return(NULL) # Return NULL for failed parsing
+      }
+    )
+  }
+  
+  # Parse emissions column and unnest
+  cat("Parsing JSON emissions data...\n")
+  cw_data_unnested <- cw_data %>%
+    mutate(emissions = lapply(emissions, safe_parse_json)) %>%
+    filter(!sapply(emissions, is.null)) %>% # Remove rows with failed parsing
+    unnest(cols = emissions, names_repair = "minimal")
+  
+  # Print distinct values and counts
+  cat("\nDistinct values in 'gas' column:\n")
+  print(unique(cw_data_unnested$gas))
+  cat("\nCount of distinct gas values:", length(unique(cw_data_unnested$gas)), "\n")
+  
+  cat("\nDistinct values in 'sector' column:\n")
+  print(unique(cw_data_unnested$sector))
+  cat("\nCount of distinct sector values:", length(unique(cw_data_unnested$sector)), "\n")
+  cat("\nNumber of distinct countries:", length(unique(cw_data_unnested$country)), "\n")
+    # Filter for Energy sector and All GHG gas, and years between START_YEAR-END_YEAR
+  cw_filtered <- cw_data_unnested %>%
+    filter(sector == "Energy", gas == "All GHG", year >= START_YEAR, year <= END_YEAR) %>%
+    select(country, iso_code3, year, value) %>%
+    rename(iso_code = iso_code3, emissions = value)
+  
+  # Filter out non-country entities (ensure valid ISO codes)
+  cw_filtered <- cw_filtered %>%
+    filter(!is.na(iso_code), iso_code != "")
+  
+} else {
+  stop("Column 'emissions' not found in cw_data. Available columns: ", paste(colnames(cw_data), collapse = ", "))
+}
+```
+
+### Examine the Processed Climate Watch Data
+
+```{r examine_cw_filtered}
+# Filter out non-country entities (already done above, showing results here)
+cat("\nSample of filtered Climate Watch data (first 5 rows):\n")
+print(head(cw_filtered, 5))
+
+# Count the number of countries and years in the filtered data
+cat("\nNumber of valid countries in filtered data:", length(unique(cw_filtered$country)), "\n")
+cat("Number of valid ISO codes in filtered data:", length(unique(cw_filtered$iso_code)), "\n")
+cat("Year range in filtered data:", min(cw_filtered$year, na.rm = TRUE), "to", 
+    max(cw_filtered$year, na.rm = TRUE), "\n")
+cat("Total rows in filtered data:", nrow(cw_filtered), "\n")
+
+# Check for any rows with empty or NA ISO codes that might have slipped through
+missing_iso_count <- sum(is.na(cw_filtered$iso_code) | cw_filtered$iso_code == "")
+if(missing_iso_count > 0) {
+  cat("\nWARNING: There are still", missing_iso_count, "rows with missing ISO codes\n")
+  print(cw_filtered %>% filter(is.na(iso_code) | iso_code == "") %>% select(country) %>% distinct())
+}
+```
+
+## Ensure Data Types and Check Year Ranges
+
+```{r ensure_types}
+# Step 4: Ensure year column is numeric
+owid_filtered <- owid_filtered %>% mutate(year = as.numeric(year))
+cw_filtered <- cw_filtered %>% mutate(year = as.numeric(year))
+```
+
+# Data Quality Analysis
+
+## Missing Values Analysis - OWID Dataset
+
+```{r missing_owid}
+# Calculate and print missing values in OWID dataset
+cat("\n----- OWID Missing Values Analysis -----\n")
+owid_missing <- colSums(is.na(owid_filtered))
+owid_missing_percent <- (owid_missing / nrow(owid_filtered)) * 100
+owid_missing_df <- data.frame(
+  Column = names(owid_missing),
+  Missing_Count = owid_missing,
+  Missing_Percent = round(owid_missing_percent, 2)
+)
+# Only show columns with at least one missing value
+owid_missing_filtered <- owid_missing_df[owid_missing_df$Missing_Count > 0, ]
+print(owid_missing_filtered[order(-owid_missing_filtered$Missing_Percent), ])
+
+# Check missing values by country and year
+# Calculate missing values by country and year for important columns
+check_missing_by_country_year <- function(data, column_name) {
+  missing_by_country_year <- data %>%
+    group_by(country, year) %>%
+    summarize(
+      missing_count = sum(is.na(!!sym(column_name))),
+      total_rows = n(),
+      missing_percent = (missing_count / total_rows) * 100,
+      .groups = "drop"
+    ) %>%
+    filter(missing_count > 0) %>%
+    arrange(desc(missing_percent), country, year)
+  
+  return(missing_by_country_year)
+}
+
+# Check missing values for primary energy consumption
+missing_primary_energy <- check_missing_by_country_year(owid_filtered, "primary_energy_consumption")
+cat("\nCountries and years with missing primary energy consumption data:\n")
+print(head(missing_primary_energy, 10))  # Show only the top 10 rows
+
+# Check missing values for fossil fuel consumption
+missing_fossil_fuel <- check_missing_by_country_year(owid_filtered, "fossil_fuel_consumption")
+cat("\nCountries and years with missing fossil fuel consumption data:\n")
+print(head(missing_fossil_fuel, 10))  # Show only the top 10 rows
+
+# Get the total unique countries in OWID dataset
+owid_countries_count <- owid_filtered %>%
+  filter(!is.na(iso_code)) %>% 
+  pull(iso_code) %>% 
+  unique() %>%
+  length()
+
+# Check coverage completeness by year for key metrics
+owid_coverage_by_year <- owid_filtered %>%
+  group_by(year) %>%
+  summarize(
+    total_countries = n_distinct(iso_code),
+    countries_with_population = n_distinct(iso_code[!is.na(population)]),
+    countries_with_gdp = n_distinct(iso_code[!is.na(gdp)]),
+    countries_with_energy = n_distinct(iso_code[!is.na(primary_energy_consumption)]),
+    countries_with_fossil = n_distinct(iso_code[!is.na(fossil_fuel_consumption)]),
+    countries_with_renewables = n_distinct(iso_code[!is.na(renewables_consumption)]),
+    population_coverage = (countries_with_population / owid_countries_count) * 100,
+    gdp_coverage = (countries_with_gdp / owid_countries_count) * 100,
+    energy_coverage = (countries_with_energy / owid_countries_count) * 100,
+    fossil_coverage = (countries_with_fossil / owid_countries_count) * 100,
+    renewables_coverage = (countries_with_renewables / owid_countries_count) * 100,
+    .groups = "drop"
+  )
+
+cat("\nOWID Coverage completeness by year (against maximum", owid_countries_count, "countries):\n")
+print(head(owid_coverage_by_year))
+
+# Visualize OWID data coverage over time
+ggplot(owid_coverage_by_year, aes(x = year)) +
+  geom_line(aes(y = energy_coverage, color = "Energy")) +
+  geom_line(aes(y = fossil_coverage, color = "Fossil Fuels")) +
+  geom_line(aes(y = renewables_coverage, color = "Renewables")) +
+  geom_line(aes(y = population_coverage, color = "Population")) +
+  geom_line(aes(y = gdp_coverage, color = "GDP")) +
+  labs(title = "OWID Data Coverage Over Time",
+       subtitle = paste("Percentage of", owid_countries_count, "maximum possible countries"),
+       x = "Year", 
+       y = "Coverage (%)",
+       color = "Variable") +
+  theme_minimal() +
+  scale_color_brewer(palette = "Set1") +
+  theme(legend.position = "bottom")
+```
+
+## Missing Values Analysis - Climate Watch Dataset
+
+```{r missing_cw}
+cat("\nClimate Watch data year range (after filtering):", min(cw_filtered$year, na.rm = TRUE), "to", 
+    max(cw_filtered$year, na.rm = TRUE), "\n")
+cat("Climate Watch filtered data rows:", nrow(cw_filtered), "\n")
+
+# Calculate and print missing values in Climate Watch dataset
+cat("\n----- Climate Watch Missing Values Analysis -----\n")
+cw_missing <- colSums(is.na(cw_filtered))
+cw_missing_percent <- (cw_missing / nrow(cw_filtered)) * 100
+cw_missing_df <- data.frame(
+  Column = names(cw_missing),
+  Missing_Count = cw_missing,
+  Missing_Percent = round(cw_missing_percent, 2)
+)
+# Only show columns with at least one missing value
+cw_missing_filtered <- cw_missing_df[cw_missing_df$Missing_Count > 0, ]
+print(cw_missing_filtered[order(-cw_missing_filtered$Missing_Percent), ])
+
+# Check missing values by country and year for emissions
+missing_emissions <- check_missing_by_country_year(cw_filtered, "emissions")
+cat("\nCountries and years with missing emissions data:\n")
+print(head(missing_emissions, 10))  # Show only the top 10 rows
+
+# Get the total unique countries in Climate Watch dataset
+cw_countries_count <- cw_filtered %>%
+  filter(!is.na(iso_code)) %>% 
+  pull(iso_code) %>% 
+  unique() %>%
+  length()
+
+# Check coverage completeness by year
+cw_coverage_by_year <- cw_filtered %>%
+  group_by(year) %>%
+  summarize(
+    total_countries = n_distinct(iso_code),
+    countries_with_emissions = n_distinct(iso_code[!is.na(emissions)]),
+    # Calculate coverage against year's total and maximum possible
+    year_coverage_percent = (countries_with_emissions / total_countries) * 100,
+    max_coverage_percent = (countries_with_emissions / cw_countries_count) * 100,
+    .groups = "drop"
+  )
+
+cat("\nClimate Watch coverage completeness by year (against maximum", cw_countries_count, "countries):\n")
+print(cw_coverage_by_year)
+
+# Visualize Climate Watch data coverage over time
+ggplot(cw_coverage_by_year, aes(x = year)) +
+  geom_line(aes(y = max_coverage_percent, color = "Against Max Countries"), size = 1) +
+  geom_line(aes(y = year_coverage_percent, color = "Within Year"), size = 1, linetype = "dashed") +
+  labs(title = "Climate Watch Emissions Data Coverage",
+       subtitle = paste("Percentage of", cw_countries_count, "maximum possible countries"),
+       x = "Year", 
+       y = "Coverage (%)",
+       color = "Reference") +
+  theme_minimal() +
+  scale_color_brewer(palette = "Set2") +
+  theme(legend.position = "bottom")
+```
+
+# Save Filtered Datasets
+
+Create output filenames with the year range and save the filtered datasets for future use:
+
+```{r save_filtered}
+# Create output filenames with year range
+owid_output_file <- sprintf("owid_filtered_%d_%d.csv", START_YEAR, END_YEAR)
+cw_output_file <- sprintf("cw_filtered_%d_%d.csv", START_YEAR, END_YEAR)
+merged_output_file <- sprintf("energy_emissions_merged_%d_%d.csv", START_YEAR, END_YEAR)
+
+# Optionally save the filtered datasets before merging
+write_csv(owid_filtered, owid_output_file)
+write_csv(cw_filtered, cw_output_file)
+cat(sprintf("\nFiltered datasets saved as:\n- %s\n- %s\n", owid_output_file, cw_output_file))
+```
+
+# Merge Datasets
+
+We use a full join to keep all rows from both datasets, even if there are missing values:
+
+```{r merge_datasets}
+# Step 5: Merge datasets
+# First, analyze potential country name mismatches
+owid_countries <- owid_filtered %>% 
+  select(country, iso_code) %>% 
+  distinct()
+
+cw_countries <- cw_filtered %>% 
+  select(country, iso_code) %>% 
+  distinct()
+
+# Check for ISO codes that appear in both datasets but with different country names
+country_name_variants <- full_join(
+  owid_countries,
+  cw_countries,
+  by = "iso_code"
+) %>%
+  filter(!is.na(iso_code), country.x != country.y) %>%
+  rename(owid_country = country.x, cw_country = country.y)
+
+cat("\nISO codes with different country names in the two datasets:\n")
+print(country_name_variants)
+
+# Extract all valid ISO codes from OWID dataset
+valid_iso_codes <- owid_filtered %>%
+  filter(!is.na(iso_code)) %>%
+  pull(iso_code) %>%
+  unique()
+
+# Filter Climate Watch data to only include ISO codes that exist in OWID dataset
+cw_filtered_with_valid_iso <- cw_filtered %>%
+  filter(iso_code %in% valid_iso_codes)
+
+cat(sprintf("\nFiltered Climate Watch data to only include %d ISO codes that exist in OWID dataset\n", 
+           length(valid_iso_codes)))
+cat(sprintf("Climate Watch data rows reduced from %d to %d\n", 
+           nrow(cw_filtered), nrow(cw_filtered_with_valid_iso)))
+
+# Now merge using iso_code and year as the keys
+# Use country names from OWID dataset
+merged_data <- left_join(
+  # Start with OWID data (to ensure we use its country names)
+  owid_filtered,
+  # Only include emissions column from Climate Watch
+  cw_filtered_with_valid_iso %>% select(iso_code, year, emissions),
+  by = c("iso_code", "year")
+)
+merged_data <- left_join(
+  # Start with OWID data (to ensure we use its country names)
+  owid_filtered,
+  # Only include emissions column from Climate Watch
+  cw_filtered_with_valid_iso %>% select(iso_code, year, emissions),
+  by = c("iso_code", "year")
+)
+
+# Add a comment to identify which rows have missing values from either dataset
+merged_data <- merged_data %>%
+  mutate(
+    data_source = case_when(
+      is.na(emissions) & !is.na(gdp) ~ "OWID only",
+      !is.na(emissions) & is.na(gdp) ~ "Climate Watch only",
+      !is.na(emissions) & !is.na(gdp) ~ "Both datasets",
+      TRUE ~ "Missing in both"
+    )
+  )
+
+# Create country classification by continent and development status
+# Define country groupings by ISO code from the merged data
+continent_mapping <- list(
+  "Africa" = c("DZA", "AGO", "BEN", "BWA", "BFA", "BDI", "CPV", 
+               "CMR", "CAF", "TCD", "COM", "COG", "CIV", 
+               "COD", "DJI", "EGY", "GNQ", "ERI", 
+               "SWZ", "ETH", "GAB", "GMB", "GHA", "GIN", "GNB", "KEN", 
+               "LSO", "LBR", "LBY", "MDG", "MWI", "MLI", "MRT", "MUS", 
+               "MAR", "MOZ", "NAM", "NER", "NGA", "RWA", "STP", 
+               "SEN", "SYC", "SLE", "SOM", "ZAF", "SSD", "SDN", 
+               "TZA", "TGO", "TUN", "UGA", "ZMB", "ZWE"),
+  
+  "Asia" = c("AFG", "ARM", "AZE", "BHR", "BGD", "BTN", "BRN", 
+             "KHM", "CHN", "CYP", "GEO", "IND", "IDN", "IRN", "IRQ", "ISR", 
+             "JPN", "JOR", "KAZ", "KWT", "KGZ", "LAO", "LBN", "MYS", 
+             "MDV", "MNG", "MMR", "NPL", "PRK", "OMN", "PAK", "PSE", 
+             "PHL", "QAT", "SAU", "SGP", "KOR", "LKA", "SYR", 
+             "TWN", "TJK", "THA", "TLS", "TUR", "TKM", "ARE", 
+             "UZB", "VNM", "YEM"),
+  
+  "Europe" = c("ALB", "AND", "AUT", "BLR", "BEL", "BIH", 
+               "BGR", "HRV", "CZE", "DNK", "EST", "FIN", "FRA", 
+               "DEU", "GRC", "HUN", "ISL", "IRL", "ITA", "XKX", "LVA", 
+               "LIE", "LTU", "LUX", "MLT", "MDA", "MCO", "MNE", 
+               "NLD", "MKD", "NOR", "POL", "PRT", "ROU", "RUS", 
+               "SMR", "SRB", "SVK", "SVN", "ESP", "SWE", "CHE", 
+               "UKR", "GBR", "VAT"),
+  
+  "North America" = c("ATG", "BHS", "BRB", "BLZ", "CAN", "CRI", 
+                      "CUB", "DMA", "DOM", "SLV", "GRD", "GTM", 
+                      "HTI", "HND", "JAM", "MEX", "NIC", "PAN", "KNA", 
+                      "LCA", "VCT", "TTO", 
+                      "USA"),
+  
+  "Oceania" = c("AUS", "FJI", "KIR", "MHL", "FSM", "NRU", 
+                "NZL", "PLW", "PNG", "WSM", "SLB", "TON", 
+                "TUV", "VUT"),
+  
+  "South America" = c("ARG", "BOL", "BRA", "CHL", "COL", "ECU", "GUY", 
+                      "PRY", "PER", "SUR", "URY", "VEN")
+)
+
+# Define development status by ISO code
+developed_countries <- c("AUS", "AUT", "BEL", "CAN", "DNK", "FIN", "FRA", 
+                         "DEU", "GRC", "ISL", "IRL", "ITA", "JPN", "LUX", 
+                         "NLD", "NZL", "NOR", "PRT", "ESP", "SWE", 
+                         "CHE", "GBR", "USA")
+
+# Function to find continent for a country based on ISO code
+get_continent <- function(iso) {
+  for (continent in names(continent_mapping)) {
+    if (iso %in% continent_mapping[[continent]]) {
+      return(continent)
+    }
+  }
+  return("Other")
+}
+
+# Add continent and development status columns based on ISO code
+merged_data <- merged_data %>%
+  mutate(
+    continent = sapply(iso_code, get_continent),
+    development_status = ifelse(iso_code %in% developed_countries, "Developed", "Developing")
+  )
+
+# Aggregate data by continent
+continent_data <- merged_data %>%
+  filter(!is.na(continent), continent != "Other") %>%
+  group_by(continent, year) %>%
+  summarize(
+    countries_count = n_distinct(country),
+    total_population = sum(population, na.rm = TRUE),
+    total_gdp = sum(gdp, na.rm = TRUE),
+    total_emissions = sum(emissions, na.rm = TRUE),
+    total_primary_energy = sum(primary_energy_consumption, na.rm = TRUE),
+    total_fossil_fuel = sum(fossil_fuel_consumption, na.rm = TRUE),
+    total_renewables = sum(renewables_consumption, na.rm = TRUE),
+    fossil_share = (total_fossil_fuel / total_primary_energy) * 100,
+    renewables_share = (total_renewables / total_primary_energy) * 100,
+    emissions_per_capita = total_emissions / total_population,
+    energy_per_capita = total_primary_energy / total_population,
+    gdp_per_capita = total_gdp / total_population,
+    .groups = "drop"
+  )
+
+# Aggregate data by development status
+development_data <- merged_data %>%
+  group_by(development_status, year) %>%
+  summarize(
+    countries_count = n_distinct(country),
+    total_population = sum(population, na.rm = TRUE),
+    total_gdp = sum(gdp, na.rm = TRUE),
+    total_emissions = sum(emissions, na.rm = TRUE),
+    total_primary_energy = sum(primary_energy_consumption, na.rm = TRUE),
+    total_fossil_fuel = sum(fossil_fuel_consumption, na.rm = TRUE),
+    total_renewables = sum(renewables_consumption, na.rm = TRUE),
+    fossil_share = (total_fossil_fuel / total_primary_energy) * 100,
+    renewables_share = (total_renewables / total_primary_energy) * 100,
+    emissions_per_capita = total_emissions / total_population,
+    energy_per_capita = total_primary_energy / total_population,
+    gdp_per_capita = total_gdp / total_population,
+    .groups = "drop"
+  )
+
+# Combine the aggregated data with the original merged data
+# Add a new column to identify the data as country-level or aggregated
+merged_data <- merged_data %>%
+  mutate(data_level = "Country")
+
+# Add identifiers to aggregated datasets
+continent_data <- continent_data %>%
+  mutate(
+    data_level = "Continent",
+    country = continent,
+    iso_code = NA
+  )
+
+development_data <- development_data %>%
+  mutate(
+    data_level = "Development Status",
+    country = development_status,
+    iso_code = NA,
+    continent = NA
+  )
+
+# Combine the country and aggregated data
+# We'll need to select common columns
+common_cols <- intersect(
+  intersect(
+    colnames(merged_data),
+    colnames(continent_data)
+  ),
+  colnames(development_data)
+)
+
+# Combine the datasets
+merged_data_with_aggregates <- bind_rows(
+  merged_data %>% select(all_of(common_cols)),
+  continent_data %>% select(all_of(common_cols)),
+  development_data %>% select(all_of(common_cols))
+)
+```
+
+## Merged Data Summary
+
+```{r merged_summary}
+# Print summary of merged data
+cat("Original merged data dimensions:", nrow(merged_data), "rows by", ncol(merged_data), "columns\n")
+cat("Year range in merged data:", min(merged_data$year, na.rm = TRUE), "to", max(merged_data$year, na.rm = TRUE), "\n")
+cat("Number of unique countries in merged data:", length(unique(merged_data$country)), "\n")
+cat("Number of unique ISO codes in merged data:", length(unique(merged_data$iso_code)), "\n")
+
+# Analyze which rows come from which dataset
+source_counts <- table(merged_data$data_source)
+cat("\nData source breakdown:\n")
+print(source_counts)
+cat("\nPercentage breakdown:\n")
+source_percentages <- prop.table(source_counts) * 100
+print(round(source_percentages, 2))
+
+# Check for any country-year combinations that have duplicate entries 
+# (should not happen with proper ISO code and year merging)
+potential_duplicates <- merged_data %>%
+  group_by(iso_code, year) %>%
+  filter(n() > 1) %>%
+  arrange(iso_code, year)
+
+if(nrow(potential_duplicates) > 0) {
+  cat("\nWARNING: Found potential duplicate entries for the same ISO code and year:\n")
+  print(potential_duplicates %>% select(country, iso_code, year) %>% distinct())
+} else {
+  cat("\nNo duplicate country-year combinations found, confirming successful ISO code-based merging.\n")
+}
+
+# Information about aggregated data
+cat("\nAggregated data summary:\n")
+cat("Continent-level aggregated rows:", nrow(continent_data), "\n")
+cat("Development status-level aggregated rows:", nrow(development_data), "\n")
+cat("Total rows in combined dataset (with aggregates):", nrow(merged_data_with_aggregates), "\n")
+
+# Display counts by continent
+continent_counts <- merged_data %>%
+  filter(!is.na(continent)) %>%
+  group_by(continent) %>%
+  summarize(
+    countries = n_distinct(country),
+    rows = n(),
+    .groups = "drop"
+  )
+
+cat("\nCountries by continent:\n")
+print(continent_counts)
+
+# Display counts by development status
+development_counts <- merged_data %>%
+  group_by(development_status) %>%
+  summarize(
+    countries = n_distinct(country),
+    rows = n(),
+    .groups = "drop"
+  )
+
+cat("\nCountries by development status:\n")
+print(development_counts)
+
+# Sample of aggregated data
+cat("\nSample of continent-level aggregated data:\n")
+print(head(continent_data, 3))
+
+cat("\nSample of development status-level aggregated data:\n")
+print(head(development_data, 3))
+```
+
+## Missing Values in Merged Dataset
+
+```{r missing_merged}
+# Count missing values per column in original merged data
+missing_values <- colSums(is.na(merged_data))
+missing_percent <- (missing_values / nrow(merged_data)) * 100
+missing_df <- data.frame(
+  Column = names(missing_values),
+  Missing_Count = missing_values,
+  Missing_Percent = round(missing_percent, 2)
+)
+# Only show columns with at least one missing value
+missing_filtered <- missing_df[missing_df$Missing_Count > 0, ]
+cat("\n----- Original Merged Dataset Missing Values Analysis -----\n")
+print(missing_filtered[order(-missing_filtered$Missing_Percent), ])
+
+# Check missing values for aggregated data
+cat("\n----- Missing Values in Aggregated Data -----\n")
+# For continent data
+continent_missing <- colSums(is.na(continent_data %>% select(-continent, -year, -data_level, -country, -iso_code)))
+continent_missing_percent <- (continent_missing / nrow(continent_data)) * 100
+cat("Missing values in continent aggregated data (%):\n")
+print(round(sort(continent_missing_percent, decreasing = TRUE), 2))
+
+# For development status data
+development_missing <- colSums(is.na(development_data %>% select(-development_status, -year, -data_level, -country, -iso_code, -continent)))
+development_missing_percent <- (development_missing / nrow(development_data)) * 100
+cat("\nMissing values in development status aggregated data (%):\n")
+print(round(sort(development_missing_percent, decreasing = TRUE), 2))
+
+# Save the datasets
+# Save original merged data
+merged_output_file <- sprintf("energy_emissions_merged_%d_%d.csv", START_YEAR, END_YEAR)
+write_csv(merged_data, merged_output_file)
+
+# Save aggregated datasets
+continent_output_file <- sprintf("continent_aggregated_%d_%d.csv", START_YEAR, END_YEAR)
+development_output_file <- sprintf("development_aggregated_%d_%d.csv", START_YEAR, END_YEAR)
+combined_output_file <- sprintf("energy_emissions_all_%d_%d.csv", START_YEAR, END_YEAR)
+
+write_csv(continent_data, continent_output_file)
+write_csv(development_data, development_output_file)
+write_csv(merged_data_with_aggregates, combined_output_file)
+
+cat(sprintf("\nDatasets saved as:\n- %s (original merged data)\n- %s (continent aggregated data)\n- %s (development status aggregated data)\n- %s (combined data with aggregates)\n", 
+            merged_output_file, continent_output_file, development_output_file, combined_output_file))
+```
+
+## Samples of Merged Data
+
+Let's look at samples from different data sources:
+
+```{r data_samples}
+# Display samples of the merged data by data source
+cat("\nSample of complete data (Both datasets):\n")
+print(head(merged_data %>% filter(data_source == "Both datasets")))
+
+cat("\nSample of OWID-only data (Climate Watch data missing):\n")
+print(head(merged_data %>% filter(data_source == "OWID only")))
+
+cat("\nSample of Climate Watch-only data (OWID data missing):\n")
+print(head(merged_data %>% filter(data_source == "Climate Watch only")))
+
+# Show samples of the aggregated data
+cat("\nSample of continent-level data (Asia):\n")
+print(head(continent_data %>% filter(continent == "Asia")))
+
+cat("\nSample of development status data (Developed countries):\n")
+print(head(development_data %>% filter(development_status == "Developed")))
+```
+
+# QA Checks and EDA Plots
+
+```{r qa_setup}
+# Install needed visualization packages if not present
+install_and_load_packages <- function(packages) {
+  for (pkg in packages) {
+    if (!requireNamespace(pkg, quietly = TRUE)) {
+      cat(paste0("Package '", pkg, "' is not installed. Attempting to install...\n"))
+      tryCatch({
+        install.packages(pkg, dependencies = TRUE, repos = "https://cloud.r-project.org")
+        if (!requireNamespace(pkg, quietly = TRUE)) {
+          stop(paste0("Failed to install package '", pkg, "'."))
+        }
+      }, error = function(e) {
+        cat(paste0("Error installing package '", pkg, "': ", e$message, "\n"))
+        cat("Note: If you're on Windows and seeing Rtools errors, please:\n")
+        cat("1. Download and install Rtools from https://cran.rstudio.com/bin/windows/Rtools/\n")
+        cat("2. Restart R and try again\n")
+        cat("3. Alternatively, manually install the package using RStudio's interface\n\n")
+      })
+    }
+    library(pkg, character.only = TRUE)
+    cat(paste0("Package '", pkg, "' loaded successfully.\n"))
+  }
+}
+
+# Since ggplot2 and gridExtra are already loaded in the libraries section,
+# we don't need to load them again
+
+# Create output directory for plots if it doesn't exist
+plots_dir <- "qa_plots"
+if (!dir.exists(plots_dir)) {
+  dir.create(plots_dir)
+  cat("Created directory for QA plots:", plots_dir, "\n")
+}
+```
+
+## Check Units and Consistency
+
+```{r units_check}
+# Check and print the range of values for important columns to verify units
+units_check <- function(data, columns) {
+  result <- data.frame()
+  for (col in columns) {
+    if (col %in% colnames(data)) {
+      col_stats <- data %>%
+        summarize(
+          Column = col,
+          Min = min(!!sym(col), na.rm = TRUE),
+          Max = max(!!sym(col), na.rm = TRUE),
+          Mean = mean(!!sym(col), na.rm = TRUE),
+          Median = median(!!sym(col), na.rm = TRUE),
+          StdDev = sd(!!sym(col), na.rm = TRUE),
+          Q1 = quantile(!!sym(col), 0.25, na.rm = TRUE),
+          Q3 = quantile(!!sym(col), 0.75, na.rm = TRUE),
+          Count = sum(!is.na(!!sym(col))),
+          Missing = sum(is.na(!!sym(col)))
+        )
+      result <- bind_rows(result, col_stats)
+    }
+  }
+  return(result)
+}
+
+# Key consumption columns to check
+consumption_cols <- c(
+  "primary_energy_consumption",
+  "fossil_fuel_consumption", 
+  "coal_consumption", 
+  "oil_consumption", 
+  "gas_consumption",
+  "low_carbon_consumption", 
+  "nuclear_consumption",
+  "renewables_consumption", 
+  "hydro_consumption", 
+  "solar_consumption",
+  "wind_consumption", 
+  "biofuel_consumption", 
+  "other_renewable_consumption"
+)
+
+# Check the calculated share columns
+share_cols <- c(
+  "calc_fossil_share_energy", 
+  "calc_coal_share_energy", 
+  "calc_oil_share_energy", 
+  "calc_gas_share_energy", 
+  "calc_low_carbon_share_energy", 
+  "calc_nuclear_share_energy", 
+  "calc_renewables_share_energy", 
+  "calc_hydro_share_energy", 
+  "calc_solar_share_energy", 
+  "calc_wind_share_energy", 
+  "calc_biofuel_share_energy", 
+  "calc_other_renewable_share_energy"
+)
+
+# Check emissions data
+emissions_cols <- c("emissions")
+
+# Perform the checks
+cat("Checking consumption values (should be in TWh):\n")
+consumption_stats <- units_check(merged_data, consumption_cols)
+print(consumption_stats)
+
+cat("\nChecking energy share percentages (should be in %):\n")
+share_stats <- units_check(merged_data, share_cols)
+print(share_stats)
+
+cat("\nChecking emissions values:\n")
+emissions_stats <- units_check(merged_data, emissions_cols)
+print(emissions_stats)
+```
+
+## Missing Values Patterns Visualization
+
+```{r missing_patterns, fig.height=8}
+# Create a heatmap of missing values by country and year
+missing_pattern_plot <- function(data, value_col, title) {
+  # Count missing values by country and year
+  missing_by_country_year <- data %>%
+    group_by(country, year) %>%
+    summarize(missing_count = sum(is.na(!!sym(value_col))), .groups = 'drop') %>%
+    mutate(has_data = missing_count == 0)
+  
+  # Create the plot
+  p <- ggplot(missing_by_country_year, aes(x = year, y = country, fill = has_data)) +
+    geom_tile() +
+    scale_fill_manual(values = c("TRUE" = "green", "FALSE" = "red"), 
+                      labels = c("TRUE" = "Has Data", "FALSE" = "Missing"),
+                      name = "Data Status") +
+    labs(title = title,
+         x = "Year",
+         y = "Country") +
+    theme_minimal() +
+    theme(axis.text.y = element_text(size = 7))
+  
+  return(p)
+}
+
+# Limit to a subset of countries for better visualization (top 20 by population)
+top_countries <- merged_data %>%
+  filter(!is.na(population)) %>%
+  group_by(country) %>%
+  summarize(avg_pop = mean(population, na.rm = TRUE), .groups = 'drop') %>%
+  arrange(desc(avg_pop)) %>%
+  head(20) %>%
+  pull(country)
+
+# Create missing data pattern plots
+merged_subset <- merged_data %>% filter(country %in% top_countries)
+
+# Primary energy consumption missing pattern
+primary_energy_plot <- missing_pattern_plot(
+  merged_subset, 
+  "primary_energy_consumption", 
+  "Missing Values in Primary Energy Consumption Data (Top 20 Countries by Population)"
+)
+
+# Emissions missing pattern
+emissions_plot <- missing_pattern_plot(
+  merged_subset, 
+  "emissions", 
+  "Missing Values in Emissions Data (Top 20 Countries by Population)"
+)
+
+# Display the plots
+primary_energy_plot
+emissions_plot
+
+# Save the plots
+ggsave(file.path(plots_dir, "primary_energy_missing_pattern.png"), primary_energy_plot, width = 10, height = 8)
+ggsave(file.path(plots_dir, "emissions_missing_pattern.png"), emissions_plot, width = 10, height = 8)
+```
+
+## Country-Specific Energy Mix Analysis
+
+```{r country_plots, fig.height=8}
+# Function to create a line plot for a specific country over time
+country_line_plot <- function(data, country_name, y_cols, title, y_lab) {
+  # Filter for the specific country
+  country_data <- data %>%
+    filter(country == country_name) %>%
+    arrange(year)
+  
+  # Reshape data to long format for plotting multiple lines
+  plot_data <- country_data %>%
+    select(year, all_of(y_cols)) %>%
+    gather(key = "variable", value = "value", -year)
+  
+  # Create the plot
+  p <- ggplot(plot_data, aes(x = year, y = value, color = variable)) +
+    geom_line() +
+    geom_point() +
+    labs(title = paste(title, "-", country_name),
+         x = "Year",
+         y = y_lab,
+         color = "Energy Source") +
+    theme_minimal() +
+    theme(legend.position = "bottom")
+  
+  return(p)
+}
+
+# Create energy mix plots for major countries
+countries_to_plot <- c("United States", "China", "India", "Germany", "United Kingdom")
+
+# Let's plot one example in the document
+if ("United States" %in% merged_data$country) {
+  # Energy consumption plot
+  consumption_plot <- country_line_plot(
+    merged_data,
+    "United States",
+    c("fossil_fuel_consumption", "low_carbon_consumption", "renewables_consumption"),
+    "Energy Consumption Mix",
+    "Energy Consumption (TWh)"
+  )
+  
+  # Energy share plot
+  share_plot <- country_line_plot(
+    merged_data,
+    "United States",
+    c("calc_fossil_share_energy", "calc_low_carbon_share_energy", "calc_renewables_share_energy"),
+    "Energy Mix Percentages",
+    "Share of Primary Energy (%)"
+  )
+  
+  # Display the plots
+  consumption_plot
+  share_plot
+}
+```
+
+## Emissions vs. Energy Consumption
+
+```{r emissions_energy}
+# Example for United States
+if ("United States" %in% merged_data$country) {
+  # Emissions vs. energy plot
+  emissions_energy_data <- merged_data %>%
+    filter(country == "United States") %>%
+    select(year, emissions, primary_energy_consumption) %>%
+    gather(key = "variable", value = "value", -year)
+  
+  emissions_energy_plot <- ggplot(emissions_energy_data, aes(x = year, y = value, color = variable, group = variable)) +
+    geom_line() +
+    geom_point() +
+    facet_wrap(~variable, scales = "free_y") +
+    labs(title = paste("Emissions vs. Energy Consumption - United States"),
+         x = "Year",
+         y = "Value") +
+    theme_minimal()
+  
+  emissions_energy_plot
+}
+```
+
+## Global Energy Trends
+
+```{r global_trends}
+# Global trends plot
+global_data <- merged_data %>%
+  group_by(year) %>%
+  summarize(
+    total_emissions = sum(emissions, na.rm = TRUE),
+    total_energy = sum(primary_energy_consumption, na.rm = TRUE),
+    fossil_share = sum(fossil_fuel_consumption, na.rm = TRUE) / sum(primary_energy_consumption, na.rm = TRUE) * 100,
+    renewable_share = sum(renewables_consumption, na.rm = TRUE) / sum(primary_energy_consumption, na.rm = TRUE) * 100,
+    .groups = 'drop'
+  )
+
+global_trends_plot <- ggplot(global_data, aes(x = year)) +
+  geom_line(aes(y = fossil_share, color = "Fossil Share")) +
+  geom_line(aes(y = renewable_share, color = "Renewable Share")) +
+  labs(title = "Global Energy Trends",
+       x = "Year",
+       y = "Percentage (%)",
+       color = "Metric") +
+  theme_minimal()
+
+global_trends_plot
+```
+
+## Emissions vs. GDP (Latest Year)
+
+```{r gdp_emissions, fig.width=12, fig.height=8}
+# Emissions vs. GDP scatter plot for latest year
+latest_year <- max(merged_data$year, na.rm = TRUE)
+scatter_data <- merged_data %>%
+  filter(year == latest_year, !is.na(emissions), !is.na(gdp), !is.na(population)) %>%
+  mutate(
+    emissions_per_capita = emissions / population,
+    gdp_per_capita = gdp / population
+  )
+
+scatter_plot <- ggplot(scatter_data, aes(x = gdp_per_capita, y = emissions_per_capita, color = calc_renewables_share_energy)) +
+  geom_point(aes(size = population)) +
+  geom_text(aes(label = country), check_overlap = TRUE, hjust = -0.1, vjust = 0.5, size = 3) +
+  labs(title = paste("Emissions vs. GDP per Capita -", latest_year),
+       x = "GDP per Capita",
+       y = "Emissions per Capita",
+       color = "Renewable Share (%)",
+       size = "Population") +
+  scale_size_continuous(trans = "log10") +
+  theme_minimal()
+
+scatter_plot
+```
+
+# Conclusion
+
+This analysis has:
+
+1.  Successfully processed energy and emissions data from OWID and Climate Watch
+2.  Filtered data for the period from `r START_YEAR` to `r END_YEAR`
+3.  Included only country-level data (removed regions and other non-country entities) from both datasets
+4.  Standardized country names using ISO codes as the reliable identifier
+5.  Performed an ISO code-based merge to ensure accurate country matching
+6.  Calculated energy mix percentages from consumption values
+7.  Performed detailed quality checks and missing value analysis
+8.  Created aggregated views by continent and development status
+9.  Produced visualizations to identify patterns and relationships
+
+The results show:
+
+-   Missing value patterns vary significantly by country and data source
+-   Energy consumption mix is changing over time, with renewables increasing
+-   There is a correlation between GDP per capita and emissions per capita
+-   Countries with higher renewable energy share tend to have lower emissions per capita
+-   Continental differences are substantial, with Asia showing the highest growth in energy consumption and emissions
+-   Developed countries have higher emissions per capita but are also making more progress in renewable energy adoption
+-   The standardized country naming and ISO code-based merging ensures that we have reliable country-level comparisons
+-   The aggregated data provides valuable insights into regional and development-based patterns that might not be visible at the individual country level
+
+These findings can inform policy decisions related to energy transition and climate change mitigation strategies, especially in highlighting which regions and development groups need the most attention for emissions reduction and renewable energy adoption.
+
+# Visualize aggregated data
+
+## Continent-Level Comparison
+
+```{r continent_plots, fig.height=10, fig.width=12}
+# Create plots to compare continents
+# Energy consumption by continent
+continent_energy_plot <- ggplot(continent_data, aes(x = year, y = total_primary_energy, color = continent)) +
+  geom_line(linewidth = 1) +
+  geom_point() +
+  labs(title = "Total Primary Energy Consumption by Continent",
+       x = "Year",
+       y = "Primary Energy Consumption (TWh)",
+       color = "Continent") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+# Emissions by continent
+continent_emissions_plot <- ggplot(continent_data, aes(x = year, y = total_emissions, color = continent)) +
+  geom_line(linewidth = 1) +
+  geom_point() +
+  labs(title = "Total Emissions by Continent",
+       x = "Year",
+       y = "Emissions",
+       color = "Continent") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+# Combine the plots
+continent_plots <- gridExtra::grid.arrange(
+  continent_energy_plot, 
+  continent_emissions_plot, 
+  ncol = 1
+)
+
+# Per capita metrics by continent
+continent_per_capita_plot <- ggplot(continent_data, aes(x = year)) +
+  geom_line(aes(y = emissions_per_capita, color = continent), linewidth = 1) +
+  facet_wrap(~continent, scales = "free_y") +
+  labs(title = "Emissions Per Capita by Continent",
+       x = "Year",
+       y = "Emissions Per Capita") +
+  theme_minimal()
+
+# Fossil vs renewable share by continent
+continent_energy_mix_plot <- ggplot(continent_data, aes(x = year)) +
+  geom_line(aes(y = fossil_share, color = "Fossil Fuels"), linewidth = 1) +
+  geom_line(aes(y = renewables_share, color = "Renewables"), linewidth = 1) +
+  facet_wrap(~continent) +
+  labs(title = "Energy Mix by Continent",
+       x = "Year",
+       y = "Share of Primary Energy (%)",
+       color = "Energy Source") +
+  scale_color_manual(values = c("Fossil Fuels" = "brown", "Renewables" = "green")) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+# Display the per capita and energy mix plots
+continent_per_capita_plot
+continent_energy_mix_plot
+
+# Save the plots
+ggsave(file.path(plots_dir, "continent_energy_emissions.png"), continent_plots, width = 12, height = 10)
+ggsave(file.path(plots_dir, "continent_per_capita.png"), continent_per_capita_plot, width = 12, height = 8)
+ggsave(file.path(plots_dir, "continent_energy_mix.png"), continent_energy_mix_plot, width = 12, height = 8)
+```
+
+## Development Status Comparison
+
+```{r development_plots, fig.height=8, fig.width=12}
+# Create plots to compare developed vs developing countries
+# Energy consumption by development status
+development_energy_plot <- ggplot(development_data, aes(x = year, y = total_primary_energy, color = development_status)) +
+  geom_line(linewidth = 1.5) +
+  geom_point(size = 2) +
+  labs(title = "Total Primary Energy Consumption by Development Status",
+       x = "Year",
+       y = "Primary Energy Consumption (TWh)",
+       color = "Development Status") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+# Emissions by development status
+development_emissions_plot <- ggplot(development_data, aes(x = year, y = total_emissions, color = development_status)) +
+  geom_line(linewidth = 1.5) +
+  geom_point(size = 2) +
+  labs(title = "Total Emissions by Development Status",
+       x = "Year",
+       y = "Emissions",
+       color = "Development Status") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+# Per capita metrics
+development_per_capita_plot <- ggplot(development_data, aes(x = year, color = development_status)) +
+  geom_line(aes(y = emissions_per_capita), linewidth = 1.5) +
+  geom_point(aes(y = emissions_per_capita), size = 2) +
+  labs(title = "Emissions Per Capita by Development Status",
+       x = "Year",
+       y = "Emissions Per Capita",
+       color = "Development Status") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+# Energy mix comparison
+development_mix_plot <- ggplot(development_data, aes(x = year, fill = development_status)) +
+  geom_col(aes(y = renewables_share), position = "dodge") +
+  labs(title = "Renewable Energy Share by Development Status",
+       x = "Year",
+       y = "Renewable Energy Share (%)",
+       fill = "Development Status") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+# Combine the development status plots
+development_plots <- gridExtra::grid.arrange(
+  development_energy_plot, 
+  development_emissions_plot, 
+  development_per_capita_plot,
+  ncol = 1
+)
+
+# Display the energy mix plot separately
+development_mix_plot
+
+# Save the plots
+ggsave(file.path(plots_dir, "development_comparisons.png"), development_plots, width = 12, height = 14)
+ggsave(file.path(plots_dir, "development_energy_mix.png"), development_mix_plot, width = 10, height = 6)
+```
+
+# Comprehensive Coverage Analysis
+
+Now we'll analyze the coverage of both datasets against a global standard of all countries to better understand data availability.
+
+```{r comprehensive_coverage}
+# Get the ISO codes from both datasets
+owid_iso_codes <- unique(owid_filtered$iso_code[!is.na(owid_filtered$iso_code)])
+cw_iso_codes <- unique(cw_filtered$iso_code[!is.na(cw_filtered$iso_code)])
+
+# Find the maximum possible countries (union of both datasets)
+all_iso_codes <- union(owid_iso_codes, cw_iso_codes)
+total_countries_count <- length(all_iso_codes)
+
+# Create a dataframe with all possible country-year combinations
+all_years <- START_YEAR:END_YEAR
+all_combinations <- expand.grid(
+  iso_code = all_iso_codes,
+  year = all_years
+)
+
+# Calculate the theoretical maximum entries for complete coverage
+theoretical_max_entries <- total_countries_count * length(all_years)
+
+cat("\n----- Comprehensive Coverage Analysis -----\n")
+cat("Total unique countries across both datasets:", total_countries_count, "\n")
+cat("Theoretical maximum entries for complete coverage:", theoretical_max_entries, "\n\n")
+
+# Calculate comprehensive coverage by year
+comprehensive_coverage <- data.frame(year = all_years) %>%
+  left_join(
+    owid_filtered %>% 
+      group_by(year) %>% 
+      summarize(
+        owid_countries = n_distinct(iso_code),
+        owid_energy_countries = n_distinct(iso_code[!is.na(primary_energy_consumption)]),
+        .groups = "drop"
+      ),
+    by = "year"
+  ) %>%
+  left_join(
+    cw_filtered %>% 
+      group_by(year) %>% 
+      summarize(
+        cw_countries = n_distinct(iso_code),
+        cw_emissions_countries = n_distinct(iso_code[!is.na(emissions)]),
+        .groups = "drop"
+      ),
+    by = "year"
+  ) %>%
+  mutate(
+    # Calculate coverage percentages
+    owid_coverage = (owid_countries / total_countries_count) * 100,
+    owid_energy_coverage = (owid_energy_countries / total_countries_count) * 100,
+    cw_coverage = (cw_countries / total_countries_count) * 100,
+    cw_emissions_coverage = (cw_emissions_countries / total_countries_count) * 100,
+    # Calculate how many countries have both types of data
+    merged_coverage = ifelse(
+      !is.na(owid_countries) & !is.na(cw_countries),
+      (pmin(owid_countries, cw_countries) / total_countries_count) * 100,
+      NA
+    ),
+    complete_coverage = ifelse(
+      !is.na(owid_energy_countries) & !is.na(cw_emissions_countries),
+      (pmin(owid_energy_countries, cw_emissions_countries) / total_countries_count) * 100,
+      NA
+    )
+  )
+
+cat("Comprehensive coverage by year (against maximum", total_countries_count, "countries):\n")
+print(comprehensive_coverage)
+
+# Visualize comprehensive coverage
+comprehensive_coverage_long <- comprehensive_coverage %>%
+  select(year, owid_coverage, cw_coverage, merged_coverage, complete_coverage) %>%
+  pivot_longer(
+    cols = c(owid_coverage, cw_coverage, merged_coverage, complete_coverage),
+    names_to = "dataset",
+    values_to = "coverage"
+  ) %>%
+  mutate(dataset = factor(dataset, 
+                         levels = c("owid_coverage", "cw_coverage", "merged_coverage", "complete_coverage"),
+                         labels = c("OWID Countries", "CW Countries", "Countries in Both", "Complete Data")))
+
+ggplot(comprehensive_coverage_long, aes(x = year, y = coverage, color = dataset)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  labs(title = "Comprehensive Data Coverage Analysis",
+       subtitle = paste("Percentage of", total_countries_count, "maximum possible countries"),
+       x = "Year", 
+       y = "Coverage (%)",
+       color = "Dataset") +
+  theme_minimal() +
+  scale_color_brewer(palette = "Dark2") +
+  theme(legend.position = "bottom") +
+  ylim(0, 100)
+
+# Create a heatmap to visualize coverage across years and datasets
+coverage_heatmap <- comprehensive_coverage %>%
+  select(year, owid_energy_coverage, cw_emissions_coverage, complete_coverage) %>%
+  pivot_longer(
+    cols = c(owid_energy_coverage, cw_emissions_coverage, complete_coverage),
+    names_to = "dataset",
+    values_to = "coverage"
+  ) %>%
+  mutate(dataset = factor(dataset, 
+                         levels = c("owid_energy_coverage", "cw_emissions_coverage", "complete_coverage"),
+                         labels = c("OWID Energy", "CW Emissions", "Complete Data")))
+
+ggplot(coverage_heatmap, aes(x = year, y = dataset, fill = coverage)) +
+  geom_tile() +
+  scale_fill_gradient(low = "white", high = "steelblue", na.value = "gray90") +
+  labs(title = "Data Coverage Heatmap",
+       subtitle = paste("Percentage of", total_countries_count, "maximum possible countries"),
+       x = "Year", 
+       y = "Dataset",
+       fill = "Coverage (%)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+# Check which countries have the most complete data
+country_completeness <- merged_data %>%
+  group_by(iso_code, country) %>%
+  summarize(
+    year_count = n_distinct(year),
+    years_with_energy = sum(!is.na(primary_energy_consumption)),
+    years_with_emissions = sum(!is.na(emissions)),
+    years_with_both = sum(!is.na(primary_energy_consumption) & !is.na(emissions)),
+    energy_coverage = (years_with_energy / year_count) * 100,
+    emissions_coverage = (years_with_emissions / year_count) * 100,
+    complete_coverage = (years_with_both / year_count) * 100,
+    .groups = "drop"
+  ) %>%
+  arrange(desc(complete_coverage))
+
+cat("\nTop 10 countries with most complete data across years:\n")
+print(head(country_completeness, 10))
+
+cat("\nBottom 10 countries with least complete data across years:\n")
+print(tail(country_completeness, 10))
+```

@@ -1,0 +1,1815 @@
+country,year,iso_code,continent,data_level
+Afghanistan,2015,AFG,Asia,Country
+Afghanistan,2016,AFG,Asia,Country
+Afghanistan,2017,AFG,Asia,Country
+Afghanistan,2018,AFG,Asia,Country
+Afghanistan,2019,AFG,Asia,Country
+Afghanistan,2020,AFG,Asia,Country
+Afghanistan,2021,AFG,Asia,Country
+Afghanistan,2022,AFG,Asia,Country
+Albania,2015,ALB,Europe,Country
+Albania,2016,ALB,Europe,Country
+Albania,2017,ALB,Europe,Country
+Albania,2018,ALB,Europe,Country
+Albania,2019,ALB,Europe,Country
+Albania,2020,ALB,Europe,Country
+Albania,2021,ALB,Europe,Country
+Albania,2022,ALB,Europe,Country
+Algeria,2015,DZA,Africa,Country
+Algeria,2016,DZA,Africa,Country
+Algeria,2017,DZA,Africa,Country
+Algeria,2018,DZA,Africa,Country
+Algeria,2019,DZA,Africa,Country
+Algeria,2020,DZA,Africa,Country
+Algeria,2021,DZA,Africa,Country
+Algeria,2022,DZA,Africa,Country
+American Samoa,2015,ASM,Other,Country
+American Samoa,2016,ASM,Other,Country
+American Samoa,2017,ASM,Other,Country
+American Samoa,2018,ASM,Other,Country
+American Samoa,2019,ASM,Other,Country
+American Samoa,2020,ASM,Other,Country
+American Samoa,2021,ASM,Other,Country
+American Samoa,2022,ASM,Other,Country
+Angola,2015,AGO,Africa,Country
+Angola,2016,AGO,Africa,Country
+Angola,2017,AGO,Africa,Country
+Angola,2018,AGO,Africa,Country
+Angola,2019,AGO,Africa,Country
+Angola,2020,AGO,Africa,Country
+Angola,2021,AGO,Africa,Country
+Angola,2022,AGO,Africa,Country
+Antarctica,2015,ATA,Other,Country
+Antarctica,2016,ATA,Other,Country
+Antarctica,2017,ATA,Other,Country
+Antarctica,2018,ATA,Other,Country
+Antarctica,2019,ATA,Other,Country
+Antarctica,2020,ATA,Other,Country
+Antarctica,2021,ATA,Other,Country
+Antigua and Barbuda,2015,ATG,North America,Country
+Antigua and Barbuda,2016,ATG,North America,Country
+Antigua and Barbuda,2017,ATG,North America,Country
+Antigua and Barbuda,2018,ATG,North America,Country
+Antigua and Barbuda,2019,ATG,North America,Country
+Antigua and Barbuda,2020,ATG,North America,Country
+Antigua and Barbuda,2021,ATG,North America,Country
+Antigua and Barbuda,2022,ATG,North America,Country
+Argentina,2015,ARG,South America,Country
+Argentina,2016,ARG,South America,Country
+Argentina,2017,ARG,South America,Country
+Argentina,2018,ARG,South America,Country
+Argentina,2019,ARG,South America,Country
+Argentina,2020,ARG,South America,Country
+Argentina,2021,ARG,South America,Country
+Argentina,2022,ARG,South America,Country
+Armenia,2015,ARM,Asia,Country
+Armenia,2016,ARM,Asia,Country
+Armenia,2017,ARM,Asia,Country
+Armenia,2018,ARM,Asia,Country
+Armenia,2019,ARM,Asia,Country
+Armenia,2020,ARM,Asia,Country
+Armenia,2021,ARM,Asia,Country
+Armenia,2022,ARM,Asia,Country
+Aruba,2015,ABW,Other,Country
+Aruba,2016,ABW,Other,Country
+Aruba,2017,ABW,Other,Country
+Aruba,2018,ABW,Other,Country
+Aruba,2019,ABW,Other,Country
+Aruba,2020,ABW,Other,Country
+Aruba,2021,ABW,Other,Country
+Aruba,2022,ABW,Other,Country
+Australia,2015,AUS,Oceania,Country
+Australia,2016,AUS,Oceania,Country
+Australia,2017,AUS,Oceania,Country
+Australia,2018,AUS,Oceania,Country
+Australia,2019,AUS,Oceania,Country
+Australia,2020,AUS,Oceania,Country
+Australia,2021,AUS,Oceania,Country
+Australia,2022,AUS,Oceania,Country
+Austria,2015,AUT,Europe,Country
+Austria,2016,AUT,Europe,Country
+Austria,2017,AUT,Europe,Country
+Austria,2018,AUT,Europe,Country
+Austria,2019,AUT,Europe,Country
+Austria,2020,AUT,Europe,Country
+Austria,2021,AUT,Europe,Country
+Austria,2022,AUT,Europe,Country
+Azerbaijan,2015,AZE,Asia,Country
+Azerbaijan,2016,AZE,Asia,Country
+Azerbaijan,2017,AZE,Asia,Country
+Azerbaijan,2018,AZE,Asia,Country
+Azerbaijan,2019,AZE,Asia,Country
+Azerbaijan,2020,AZE,Asia,Country
+Azerbaijan,2021,AZE,Asia,Country
+Azerbaijan,2022,AZE,Asia,Country
+Bahamas,2015,BHS,North America,Country
+Bahamas,2016,BHS,North America,Country
+Bahamas,2017,BHS,North America,Country
+Bahamas,2018,BHS,North America,Country
+Bahamas,2019,BHS,North America,Country
+Bahamas,2020,BHS,North America,Country
+Bahamas,2021,BHS,North America,Country
+Bahamas,2022,BHS,North America,Country
+Bahrain,2015,BHR,Asia,Country
+Bahrain,2016,BHR,Asia,Country
+Bahrain,2017,BHR,Asia,Country
+Bahrain,2018,BHR,Asia,Country
+Bahrain,2019,BHR,Asia,Country
+Bahrain,2020,BHR,Asia,Country
+Bahrain,2021,BHR,Asia,Country
+Bahrain,2022,BHR,Asia,Country
+Bangladesh,2015,BGD,Asia,Country
+Bangladesh,2016,BGD,Asia,Country
+Bangladesh,2017,BGD,Asia,Country
+Bangladesh,2018,BGD,Asia,Country
+Bangladesh,2019,BGD,Asia,Country
+Bangladesh,2020,BGD,Asia,Country
+Bangladesh,2021,BGD,Asia,Country
+Bangladesh,2022,BGD,Asia,Country
+Barbados,2015,BRB,North America,Country
+Barbados,2016,BRB,North America,Country
+Barbados,2017,BRB,North America,Country
+Barbados,2018,BRB,North America,Country
+Barbados,2019,BRB,North America,Country
+Barbados,2020,BRB,North America,Country
+Barbados,2021,BRB,North America,Country
+Barbados,2022,BRB,North America,Country
+Belarus,2015,BLR,Europe,Country
+Belarus,2016,BLR,Europe,Country
+Belarus,2017,BLR,Europe,Country
+Belarus,2018,BLR,Europe,Country
+Belarus,2019,BLR,Europe,Country
+Belarus,2020,BLR,Europe,Country
+Belarus,2021,BLR,Europe,Country
+Belarus,2022,BLR,Europe,Country
+Belgium,2015,BEL,Europe,Country
+Belgium,2016,BEL,Europe,Country
+Belgium,2017,BEL,Europe,Country
+Belgium,2018,BEL,Europe,Country
+Belgium,2019,BEL,Europe,Country
+Belgium,2020,BEL,Europe,Country
+Belgium,2021,BEL,Europe,Country
+Belgium,2022,BEL,Europe,Country
+Belize,2015,BLZ,North America,Country
+Belize,2016,BLZ,North America,Country
+Belize,2017,BLZ,North America,Country
+Belize,2018,BLZ,North America,Country
+Belize,2019,BLZ,North America,Country
+Belize,2020,BLZ,North America,Country
+Belize,2021,BLZ,North America,Country
+Belize,2022,BLZ,North America,Country
+Benin,2015,BEN,Africa,Country
+Benin,2016,BEN,Africa,Country
+Benin,2017,BEN,Africa,Country
+Benin,2018,BEN,Africa,Country
+Benin,2019,BEN,Africa,Country
+Benin,2020,BEN,Africa,Country
+Benin,2021,BEN,Africa,Country
+Benin,2022,BEN,Africa,Country
+Bermuda,2015,BMU,Other,Country
+Bermuda,2016,BMU,Other,Country
+Bermuda,2017,BMU,Other,Country
+Bermuda,2018,BMU,Other,Country
+Bermuda,2019,BMU,Other,Country
+Bermuda,2020,BMU,Other,Country
+Bermuda,2021,BMU,Other,Country
+Bermuda,2022,BMU,Other,Country
+Bhutan,2015,BTN,Asia,Country
+Bhutan,2016,BTN,Asia,Country
+Bhutan,2017,BTN,Asia,Country
+Bhutan,2018,BTN,Asia,Country
+Bhutan,2019,BTN,Asia,Country
+Bhutan,2020,BTN,Asia,Country
+Bhutan,2021,BTN,Asia,Country
+Bhutan,2022,BTN,Asia,Country
+Bolivia,2015,BOL,South America,Country
+Bolivia,2016,BOL,South America,Country
+Bolivia,2017,BOL,South America,Country
+Bolivia,2018,BOL,South America,Country
+Bolivia,2019,BOL,South America,Country
+Bolivia,2020,BOL,South America,Country
+Bolivia,2021,BOL,South America,Country
+Bolivia,2022,BOL,South America,Country
+Bosnia and Herzegovina,2015,BIH,Europe,Country
+Bosnia and Herzegovina,2016,BIH,Europe,Country
+Bosnia and Herzegovina,2017,BIH,Europe,Country
+Bosnia and Herzegovina,2018,BIH,Europe,Country
+Bosnia and Herzegovina,2019,BIH,Europe,Country
+Bosnia and Herzegovina,2020,BIH,Europe,Country
+Bosnia and Herzegovina,2021,BIH,Europe,Country
+Bosnia and Herzegovina,2022,BIH,Europe,Country
+Botswana,2015,BWA,Africa,Country
+Botswana,2016,BWA,Africa,Country
+Botswana,2017,BWA,Africa,Country
+Botswana,2018,BWA,Africa,Country
+Botswana,2019,BWA,Africa,Country
+Botswana,2020,BWA,Africa,Country
+Botswana,2021,BWA,Africa,Country
+Botswana,2022,BWA,Africa,Country
+Brazil,2015,BRA,South America,Country
+Brazil,2016,BRA,South America,Country
+Brazil,2017,BRA,South America,Country
+Brazil,2018,BRA,South America,Country
+Brazil,2019,BRA,South America,Country
+Brazil,2020,BRA,South America,Country
+Brazil,2021,BRA,South America,Country
+Brazil,2022,BRA,South America,Country
+British Virgin Islands,2015,VGB,Other,Country
+British Virgin Islands,2016,VGB,Other,Country
+British Virgin Islands,2017,VGB,Other,Country
+British Virgin Islands,2018,VGB,Other,Country
+British Virgin Islands,2019,VGB,Other,Country
+British Virgin Islands,2020,VGB,Other,Country
+British Virgin Islands,2021,VGB,Other,Country
+British Virgin Islands,2022,VGB,Other,Country
+Brunei,2015,BRN,Asia,Country
+Brunei,2016,BRN,Asia,Country
+Brunei,2017,BRN,Asia,Country
+Brunei,2018,BRN,Asia,Country
+Brunei,2019,BRN,Asia,Country
+Brunei,2020,BRN,Asia,Country
+Brunei,2021,BRN,Asia,Country
+Brunei,2022,BRN,Asia,Country
+Bulgaria,2015,BGR,Europe,Country
+Bulgaria,2016,BGR,Europe,Country
+Bulgaria,2017,BGR,Europe,Country
+Bulgaria,2018,BGR,Europe,Country
+Bulgaria,2019,BGR,Europe,Country
+Bulgaria,2020,BGR,Europe,Country
+Bulgaria,2021,BGR,Europe,Country
+Bulgaria,2022,BGR,Europe,Country
+Burkina Faso,2015,BFA,Africa,Country
+Burkina Faso,2016,BFA,Africa,Country
+Burkina Faso,2017,BFA,Africa,Country
+Burkina Faso,2018,BFA,Africa,Country
+Burkina Faso,2019,BFA,Africa,Country
+Burkina Faso,2020,BFA,Africa,Country
+Burkina Faso,2021,BFA,Africa,Country
+Burkina Faso,2022,BFA,Africa,Country
+Burundi,2015,BDI,Africa,Country
+Burundi,2016,BDI,Africa,Country
+Burundi,2017,BDI,Africa,Country
+Burundi,2018,BDI,Africa,Country
+Burundi,2019,BDI,Africa,Country
+Burundi,2020,BDI,Africa,Country
+Burundi,2021,BDI,Africa,Country
+Burundi,2022,BDI,Africa,Country
+Cambodia,2015,KHM,Asia,Country
+Cambodia,2016,KHM,Asia,Country
+Cambodia,2017,KHM,Asia,Country
+Cambodia,2018,KHM,Asia,Country
+Cambodia,2019,KHM,Asia,Country
+Cambodia,2020,KHM,Asia,Country
+Cambodia,2021,KHM,Asia,Country
+Cambodia,2022,KHM,Asia,Country
+Cameroon,2015,CMR,Africa,Country
+Cameroon,2016,CMR,Africa,Country
+Cameroon,2017,CMR,Africa,Country
+Cameroon,2018,CMR,Africa,Country
+Cameroon,2019,CMR,Africa,Country
+Cameroon,2020,CMR,Africa,Country
+Cameroon,2021,CMR,Africa,Country
+Cameroon,2022,CMR,Africa,Country
+Canada,2015,CAN,North America,Country
+Canada,2016,CAN,North America,Country
+Canada,2017,CAN,North America,Country
+Canada,2018,CAN,North America,Country
+Canada,2019,CAN,North America,Country
+Canada,2020,CAN,North America,Country
+Canada,2021,CAN,North America,Country
+Canada,2022,CAN,North America,Country
+Cape Verde,2015,CPV,Africa,Country
+Cape Verde,2016,CPV,Africa,Country
+Cape Verde,2017,CPV,Africa,Country
+Cape Verde,2018,CPV,Africa,Country
+Cape Verde,2019,CPV,Africa,Country
+Cape Verde,2020,CPV,Africa,Country
+Cape Verde,2021,CPV,Africa,Country
+Cape Verde,2022,CPV,Africa,Country
+Cayman Islands,2015,CYM,Other,Country
+Cayman Islands,2016,CYM,Other,Country
+Cayman Islands,2017,CYM,Other,Country
+Cayman Islands,2018,CYM,Other,Country
+Cayman Islands,2019,CYM,Other,Country
+Cayman Islands,2020,CYM,Other,Country
+Cayman Islands,2021,CYM,Other,Country
+Cayman Islands,2022,CYM,Other,Country
+Central African Republic,2015,CAF,Africa,Country
+Central African Republic,2016,CAF,Africa,Country
+Central African Republic,2017,CAF,Africa,Country
+Central African Republic,2018,CAF,Africa,Country
+Central African Republic,2019,CAF,Africa,Country
+Central African Republic,2020,CAF,Africa,Country
+Central African Republic,2021,CAF,Africa,Country
+Central African Republic,2022,CAF,Africa,Country
+Chad,2015,TCD,Africa,Country
+Chad,2016,TCD,Africa,Country
+Chad,2017,TCD,Africa,Country
+Chad,2018,TCD,Africa,Country
+Chad,2019,TCD,Africa,Country
+Chad,2020,TCD,Africa,Country
+Chad,2021,TCD,Africa,Country
+Chad,2022,TCD,Africa,Country
+Chile,2015,CHL,South America,Country
+Chile,2016,CHL,South America,Country
+Chile,2017,CHL,South America,Country
+Chile,2018,CHL,South America,Country
+Chile,2019,CHL,South America,Country
+Chile,2020,CHL,South America,Country
+Chile,2021,CHL,South America,Country
+Chile,2022,CHL,South America,Country
+China,2015,CHN,Asia,Country
+China,2016,CHN,Asia,Country
+China,2017,CHN,Asia,Country
+China,2018,CHN,Asia,Country
+China,2019,CHN,Asia,Country
+China,2020,CHN,Asia,Country
+China,2021,CHN,Asia,Country
+China,2022,CHN,Asia,Country
+Colombia,2015,COL,South America,Country
+Colombia,2016,COL,South America,Country
+Colombia,2017,COL,South America,Country
+Colombia,2018,COL,South America,Country
+Colombia,2019,COL,South America,Country
+Colombia,2020,COL,South America,Country
+Colombia,2021,COL,South America,Country
+Colombia,2022,COL,South America,Country
+Comoros,2015,COM,Africa,Country
+Comoros,2016,COM,Africa,Country
+Comoros,2017,COM,Africa,Country
+Comoros,2018,COM,Africa,Country
+Comoros,2019,COM,Africa,Country
+Comoros,2020,COM,Africa,Country
+Comoros,2021,COM,Africa,Country
+Comoros,2022,COM,Africa,Country
+Congo,2015,COG,Africa,Country
+Congo,2016,COG,Africa,Country
+Congo,2017,COG,Africa,Country
+Congo,2018,COG,Africa,Country
+Congo,2019,COG,Africa,Country
+Congo,2020,COG,Africa,Country
+Congo,2021,COG,Africa,Country
+Congo,2022,COG,Africa,Country
+Cook Islands,2015,COK,Other,Country
+Cook Islands,2016,COK,Other,Country
+Cook Islands,2017,COK,Other,Country
+Cook Islands,2018,COK,Other,Country
+Cook Islands,2019,COK,Other,Country
+Cook Islands,2020,COK,Other,Country
+Cook Islands,2021,COK,Other,Country
+Cook Islands,2022,COK,Other,Country
+Costa Rica,2015,CRI,North America,Country
+Costa Rica,2016,CRI,North America,Country
+Costa Rica,2017,CRI,North America,Country
+Costa Rica,2018,CRI,North America,Country
+Costa Rica,2019,CRI,North America,Country
+Costa Rica,2020,CRI,North America,Country
+Costa Rica,2021,CRI,North America,Country
+Costa Rica,2022,CRI,North America,Country
+Cote d'Ivoire,2015,CIV,Africa,Country
+Cote d'Ivoire,2016,CIV,Africa,Country
+Cote d'Ivoire,2017,CIV,Africa,Country
+Cote d'Ivoire,2018,CIV,Africa,Country
+Cote d'Ivoire,2019,CIV,Africa,Country
+Cote d'Ivoire,2020,CIV,Africa,Country
+Cote d'Ivoire,2021,CIV,Africa,Country
+Cote d'Ivoire,2022,CIV,Africa,Country
+Croatia,2015,HRV,Europe,Country
+Croatia,2016,HRV,Europe,Country
+Croatia,2017,HRV,Europe,Country
+Croatia,2018,HRV,Europe,Country
+Croatia,2019,HRV,Europe,Country
+Croatia,2020,HRV,Europe,Country
+Croatia,2021,HRV,Europe,Country
+Croatia,2022,HRV,Europe,Country
+Cuba,2015,CUB,North America,Country
+Cuba,2016,CUB,North America,Country
+Cuba,2017,CUB,North America,Country
+Cuba,2018,CUB,North America,Country
+Cuba,2019,CUB,North America,Country
+Cuba,2020,CUB,North America,Country
+Cuba,2021,CUB,North America,Country
+Cuba,2022,CUB,North America,Country
+Curacao,2015,CUW,Other,Country
+Curacao,2016,CUW,Other,Country
+Curacao,2017,CUW,Other,Country
+Curacao,2018,CUW,Other,Country
+Curacao,2019,CUW,Other,Country
+Curacao,2020,CUW,Other,Country
+Curacao,2021,CUW,Other,Country
+Curacao,2022,CUW,Other,Country
+Cyprus,2015,CYP,Asia,Country
+Cyprus,2016,CYP,Asia,Country
+Cyprus,2017,CYP,Asia,Country
+Cyprus,2018,CYP,Asia,Country
+Cyprus,2019,CYP,Asia,Country
+Cyprus,2020,CYP,Asia,Country
+Cyprus,2021,CYP,Asia,Country
+Cyprus,2022,CYP,Asia,Country
+Czechia,2015,CZE,Europe,Country
+Czechia,2016,CZE,Europe,Country
+Czechia,2017,CZE,Europe,Country
+Czechia,2018,CZE,Europe,Country
+Czechia,2019,CZE,Europe,Country
+Czechia,2020,CZE,Europe,Country
+Czechia,2021,CZE,Europe,Country
+Czechia,2022,CZE,Europe,Country
+Democratic Republic of Congo,2015,COD,Africa,Country
+Democratic Republic of Congo,2016,COD,Africa,Country
+Democratic Republic of Congo,2017,COD,Africa,Country
+Democratic Republic of Congo,2018,COD,Africa,Country
+Democratic Republic of Congo,2019,COD,Africa,Country
+Democratic Republic of Congo,2020,COD,Africa,Country
+Democratic Republic of Congo,2021,COD,Africa,Country
+Democratic Republic of Congo,2022,COD,Africa,Country
+Denmark,2015,DNK,Europe,Country
+Denmark,2016,DNK,Europe,Country
+Denmark,2017,DNK,Europe,Country
+Denmark,2018,DNK,Europe,Country
+Denmark,2019,DNK,Europe,Country
+Denmark,2020,DNK,Europe,Country
+Denmark,2021,DNK,Europe,Country
+Denmark,2022,DNK,Europe,Country
+Djibouti,2015,DJI,Africa,Country
+Djibouti,2016,DJI,Africa,Country
+Djibouti,2017,DJI,Africa,Country
+Djibouti,2018,DJI,Africa,Country
+Djibouti,2019,DJI,Africa,Country
+Djibouti,2020,DJI,Africa,Country
+Djibouti,2021,DJI,Africa,Country
+Djibouti,2022,DJI,Africa,Country
+Dominica,2015,DMA,North America,Country
+Dominica,2016,DMA,North America,Country
+Dominica,2017,DMA,North America,Country
+Dominica,2018,DMA,North America,Country
+Dominica,2019,DMA,North America,Country
+Dominica,2020,DMA,North America,Country
+Dominica,2021,DMA,North America,Country
+Dominica,2022,DMA,North America,Country
+Dominican Republic,2015,DOM,North America,Country
+Dominican Republic,2016,DOM,North America,Country
+Dominican Republic,2017,DOM,North America,Country
+Dominican Republic,2018,DOM,North America,Country
+Dominican Republic,2019,DOM,North America,Country
+Dominican Republic,2020,DOM,North America,Country
+Dominican Republic,2021,DOM,North America,Country
+Dominican Republic,2022,DOM,North America,Country
+East Timor,2015,TLS,Asia,Country
+East Timor,2016,TLS,Asia,Country
+East Timor,2017,TLS,Asia,Country
+East Timor,2018,TLS,Asia,Country
+East Timor,2019,TLS,Asia,Country
+East Timor,2020,TLS,Asia,Country
+East Timor,2021,TLS,Asia,Country
+East Timor,2022,TLS,Asia,Country
+Ecuador,2015,ECU,South America,Country
+Ecuador,2016,ECU,South America,Country
+Ecuador,2017,ECU,South America,Country
+Ecuador,2018,ECU,South America,Country
+Ecuador,2019,ECU,South America,Country
+Ecuador,2020,ECU,South America,Country
+Ecuador,2021,ECU,South America,Country
+Ecuador,2022,ECU,South America,Country
+Egypt,2015,EGY,Africa,Country
+Egypt,2016,EGY,Africa,Country
+Egypt,2017,EGY,Africa,Country
+Egypt,2018,EGY,Africa,Country
+Egypt,2019,EGY,Africa,Country
+Egypt,2020,EGY,Africa,Country
+Egypt,2021,EGY,Africa,Country
+Egypt,2022,EGY,Africa,Country
+El Salvador,2015,SLV,North America,Country
+El Salvador,2016,SLV,North America,Country
+El Salvador,2017,SLV,North America,Country
+El Salvador,2018,SLV,North America,Country
+El Salvador,2019,SLV,North America,Country
+El Salvador,2020,SLV,North America,Country
+El Salvador,2021,SLV,North America,Country
+El Salvador,2022,SLV,North America,Country
+Equatorial Guinea,2015,GNQ,Africa,Country
+Equatorial Guinea,2016,GNQ,Africa,Country
+Equatorial Guinea,2017,GNQ,Africa,Country
+Equatorial Guinea,2018,GNQ,Africa,Country
+Equatorial Guinea,2019,GNQ,Africa,Country
+Equatorial Guinea,2020,GNQ,Africa,Country
+Equatorial Guinea,2021,GNQ,Africa,Country
+Equatorial Guinea,2022,GNQ,Africa,Country
+Eritrea,2015,ERI,Africa,Country
+Eritrea,2016,ERI,Africa,Country
+Eritrea,2017,ERI,Africa,Country
+Eritrea,2018,ERI,Africa,Country
+Eritrea,2019,ERI,Africa,Country
+Eritrea,2020,ERI,Africa,Country
+Eritrea,2021,ERI,Africa,Country
+Eritrea,2022,ERI,Africa,Country
+Estonia,2015,EST,Europe,Country
+Estonia,2016,EST,Europe,Country
+Estonia,2017,EST,Europe,Country
+Estonia,2018,EST,Europe,Country
+Estonia,2019,EST,Europe,Country
+Estonia,2020,EST,Europe,Country
+Estonia,2021,EST,Europe,Country
+Estonia,2022,EST,Europe,Country
+Eswatini,2015,SWZ,Africa,Country
+Eswatini,2016,SWZ,Africa,Country
+Eswatini,2017,SWZ,Africa,Country
+Eswatini,2018,SWZ,Africa,Country
+Eswatini,2019,SWZ,Africa,Country
+Eswatini,2020,SWZ,Africa,Country
+Eswatini,2021,SWZ,Africa,Country
+Eswatini,2022,SWZ,Africa,Country
+Ethiopia,2015,ETH,Africa,Country
+Ethiopia,2016,ETH,Africa,Country
+Ethiopia,2017,ETH,Africa,Country
+Ethiopia,2018,ETH,Africa,Country
+Ethiopia,2019,ETH,Africa,Country
+Ethiopia,2020,ETH,Africa,Country
+Ethiopia,2021,ETH,Africa,Country
+Ethiopia,2022,ETH,Africa,Country
+Falkland Islands,2015,FLK,Other,Country
+Falkland Islands,2016,FLK,Other,Country
+Falkland Islands,2017,FLK,Other,Country
+Falkland Islands,2018,FLK,Other,Country
+Falkland Islands,2019,FLK,Other,Country
+Falkland Islands,2020,FLK,Other,Country
+Falkland Islands,2021,FLK,Other,Country
+Falkland Islands,2022,FLK,Other,Country
+Faroe Islands,2015,FRO,Other,Country
+Faroe Islands,2016,FRO,Other,Country
+Faroe Islands,2017,FRO,Other,Country
+Faroe Islands,2018,FRO,Other,Country
+Faroe Islands,2019,FRO,Other,Country
+Faroe Islands,2020,FRO,Other,Country
+Faroe Islands,2021,FRO,Other,Country
+Faroe Islands,2022,FRO,Other,Country
+Fiji,2015,FJI,Oceania,Country
+Fiji,2016,FJI,Oceania,Country
+Fiji,2017,FJI,Oceania,Country
+Fiji,2018,FJI,Oceania,Country
+Fiji,2019,FJI,Oceania,Country
+Fiji,2020,FJI,Oceania,Country
+Fiji,2021,FJI,Oceania,Country
+Fiji,2022,FJI,Oceania,Country
+Finland,2015,FIN,Europe,Country
+Finland,2016,FIN,Europe,Country
+Finland,2017,FIN,Europe,Country
+Finland,2018,FIN,Europe,Country
+Finland,2019,FIN,Europe,Country
+Finland,2020,FIN,Europe,Country
+Finland,2021,FIN,Europe,Country
+Finland,2022,FIN,Europe,Country
+France,2015,FRA,Europe,Country
+France,2016,FRA,Europe,Country
+France,2017,FRA,Europe,Country
+France,2018,FRA,Europe,Country
+France,2019,FRA,Europe,Country
+France,2020,FRA,Europe,Country
+France,2021,FRA,Europe,Country
+France,2022,FRA,Europe,Country
+French Guiana,2015,GUF,Other,Country
+French Guiana,2016,GUF,Other,Country
+French Guiana,2017,GUF,Other,Country
+French Guiana,2018,GUF,Other,Country
+French Guiana,2019,GUF,Other,Country
+French Guiana,2020,GUF,Other,Country
+French Guiana,2021,GUF,Other,Country
+French Polynesia,2015,PYF,Other,Country
+French Polynesia,2016,PYF,Other,Country
+French Polynesia,2017,PYF,Other,Country
+French Polynesia,2018,PYF,Other,Country
+French Polynesia,2019,PYF,Other,Country
+French Polynesia,2020,PYF,Other,Country
+French Polynesia,2021,PYF,Other,Country
+French Polynesia,2022,PYF,Other,Country
+Gabon,2015,GAB,Africa,Country
+Gabon,2016,GAB,Africa,Country
+Gabon,2017,GAB,Africa,Country
+Gabon,2018,GAB,Africa,Country
+Gabon,2019,GAB,Africa,Country
+Gabon,2020,GAB,Africa,Country
+Gabon,2021,GAB,Africa,Country
+Gabon,2022,GAB,Africa,Country
+Gambia,2015,GMB,Africa,Country
+Gambia,2016,GMB,Africa,Country
+Gambia,2017,GMB,Africa,Country
+Gambia,2018,GMB,Africa,Country
+Gambia,2019,GMB,Africa,Country
+Gambia,2020,GMB,Africa,Country
+Gambia,2021,GMB,Africa,Country
+Gambia,2022,GMB,Africa,Country
+Georgia,2015,GEO,Asia,Country
+Georgia,2016,GEO,Asia,Country
+Georgia,2017,GEO,Asia,Country
+Georgia,2018,GEO,Asia,Country
+Georgia,2019,GEO,Asia,Country
+Georgia,2020,GEO,Asia,Country
+Georgia,2021,GEO,Asia,Country
+Georgia,2022,GEO,Asia,Country
+Germany,2015,DEU,Europe,Country
+Germany,2016,DEU,Europe,Country
+Germany,2017,DEU,Europe,Country
+Germany,2018,DEU,Europe,Country
+Germany,2019,DEU,Europe,Country
+Germany,2020,DEU,Europe,Country
+Germany,2021,DEU,Europe,Country
+Germany,2022,DEU,Europe,Country
+Ghana,2015,GHA,Africa,Country
+Ghana,2016,GHA,Africa,Country
+Ghana,2017,GHA,Africa,Country
+Ghana,2018,GHA,Africa,Country
+Ghana,2019,GHA,Africa,Country
+Ghana,2020,GHA,Africa,Country
+Ghana,2021,GHA,Africa,Country
+Ghana,2022,GHA,Africa,Country
+Gibraltar,2015,GIB,Other,Country
+Gibraltar,2016,GIB,Other,Country
+Gibraltar,2017,GIB,Other,Country
+Gibraltar,2018,GIB,Other,Country
+Gibraltar,2019,GIB,Other,Country
+Gibraltar,2020,GIB,Other,Country
+Gibraltar,2021,GIB,Other,Country
+Gibraltar,2022,GIB,Other,Country
+Greece,2015,GRC,Europe,Country
+Greece,2016,GRC,Europe,Country
+Greece,2017,GRC,Europe,Country
+Greece,2018,GRC,Europe,Country
+Greece,2019,GRC,Europe,Country
+Greece,2020,GRC,Europe,Country
+Greece,2021,GRC,Europe,Country
+Greece,2022,GRC,Europe,Country
+Greenland,2015,GRL,Other,Country
+Greenland,2016,GRL,Other,Country
+Greenland,2017,GRL,Other,Country
+Greenland,2018,GRL,Other,Country
+Greenland,2019,GRL,Other,Country
+Greenland,2020,GRL,Other,Country
+Greenland,2021,GRL,Other,Country
+Greenland,2022,GRL,Other,Country
+Grenada,2015,GRD,North America,Country
+Grenada,2016,GRD,North America,Country
+Grenada,2017,GRD,North America,Country
+Grenada,2018,GRD,North America,Country
+Grenada,2019,GRD,North America,Country
+Grenada,2020,GRD,North America,Country
+Grenada,2021,GRD,North America,Country
+Grenada,2022,GRD,North America,Country
+Guadeloupe,2015,GLP,Other,Country
+Guadeloupe,2016,GLP,Other,Country
+Guadeloupe,2017,GLP,Other,Country
+Guadeloupe,2018,GLP,Other,Country
+Guadeloupe,2019,GLP,Other,Country
+Guadeloupe,2020,GLP,Other,Country
+Guadeloupe,2021,GLP,Other,Country
+Guam,2015,GUM,Other,Country
+Guam,2016,GUM,Other,Country
+Guam,2017,GUM,Other,Country
+Guam,2018,GUM,Other,Country
+Guam,2019,GUM,Other,Country
+Guam,2020,GUM,Other,Country
+Guam,2021,GUM,Other,Country
+Guam,2022,GUM,Other,Country
+Guatemala,2015,GTM,North America,Country
+Guatemala,2016,GTM,North America,Country
+Guatemala,2017,GTM,North America,Country
+Guatemala,2018,GTM,North America,Country
+Guatemala,2019,GTM,North America,Country
+Guatemala,2020,GTM,North America,Country
+Guatemala,2021,GTM,North America,Country
+Guatemala,2022,GTM,North America,Country
+Guinea,2015,GIN,Africa,Country
+Guinea,2016,GIN,Africa,Country
+Guinea,2017,GIN,Africa,Country
+Guinea,2018,GIN,Africa,Country
+Guinea,2019,GIN,Africa,Country
+Guinea,2020,GIN,Africa,Country
+Guinea,2021,GIN,Africa,Country
+Guinea,2022,GIN,Africa,Country
+Guinea-Bissau,2015,GNB,Africa,Country
+Guinea-Bissau,2016,GNB,Africa,Country
+Guinea-Bissau,2017,GNB,Africa,Country
+Guinea-Bissau,2018,GNB,Africa,Country
+Guinea-Bissau,2019,GNB,Africa,Country
+Guinea-Bissau,2020,GNB,Africa,Country
+Guinea-Bissau,2021,GNB,Africa,Country
+Guinea-Bissau,2022,GNB,Africa,Country
+Guyana,2015,GUY,South America,Country
+Guyana,2016,GUY,South America,Country
+Guyana,2017,GUY,South America,Country
+Guyana,2018,GUY,South America,Country
+Guyana,2019,GUY,South America,Country
+Guyana,2020,GUY,South America,Country
+Guyana,2021,GUY,South America,Country
+Guyana,2022,GUY,South America,Country
+Haiti,2015,HTI,North America,Country
+Haiti,2016,HTI,North America,Country
+Haiti,2017,HTI,North America,Country
+Haiti,2018,HTI,North America,Country
+Haiti,2019,HTI,North America,Country
+Haiti,2020,HTI,North America,Country
+Haiti,2021,HTI,North America,Country
+Haiti,2022,HTI,North America,Country
+Honduras,2015,HND,North America,Country
+Honduras,2016,HND,North America,Country
+Honduras,2017,HND,North America,Country
+Honduras,2018,HND,North America,Country
+Honduras,2019,HND,North America,Country
+Honduras,2020,HND,North America,Country
+Honduras,2021,HND,North America,Country
+Honduras,2022,HND,North America,Country
+Hong Kong,2015,HKG,Other,Country
+Hong Kong,2016,HKG,Other,Country
+Hong Kong,2017,HKG,Other,Country
+Hong Kong,2018,HKG,Other,Country
+Hong Kong,2019,HKG,Other,Country
+Hong Kong,2020,HKG,Other,Country
+Hong Kong,2021,HKG,Other,Country
+Hong Kong,2022,HKG,Other,Country
+Hungary,2015,HUN,Europe,Country
+Hungary,2016,HUN,Europe,Country
+Hungary,2017,HUN,Europe,Country
+Hungary,2018,HUN,Europe,Country
+Hungary,2019,HUN,Europe,Country
+Hungary,2020,HUN,Europe,Country
+Hungary,2021,HUN,Europe,Country
+Hungary,2022,HUN,Europe,Country
+Iceland,2015,ISL,Europe,Country
+Iceland,2016,ISL,Europe,Country
+Iceland,2017,ISL,Europe,Country
+Iceland,2018,ISL,Europe,Country
+Iceland,2019,ISL,Europe,Country
+Iceland,2020,ISL,Europe,Country
+Iceland,2021,ISL,Europe,Country
+Iceland,2022,ISL,Europe,Country
+India,2015,IND,Asia,Country
+India,2016,IND,Asia,Country
+India,2017,IND,Asia,Country
+India,2018,IND,Asia,Country
+India,2019,IND,Asia,Country
+India,2020,IND,Asia,Country
+India,2021,IND,Asia,Country
+India,2022,IND,Asia,Country
+Indonesia,2015,IDN,Asia,Country
+Indonesia,2016,IDN,Asia,Country
+Indonesia,2017,IDN,Asia,Country
+Indonesia,2018,IDN,Asia,Country
+Indonesia,2019,IDN,Asia,Country
+Indonesia,2020,IDN,Asia,Country
+Indonesia,2021,IDN,Asia,Country
+Indonesia,2022,IDN,Asia,Country
+Iran,2015,IRN,Asia,Country
+Iran,2016,IRN,Asia,Country
+Iran,2017,IRN,Asia,Country
+Iran,2018,IRN,Asia,Country
+Iran,2019,IRN,Asia,Country
+Iran,2020,IRN,Asia,Country
+Iran,2021,IRN,Asia,Country
+Iran,2022,IRN,Asia,Country
+Iraq,2015,IRQ,Asia,Country
+Iraq,2016,IRQ,Asia,Country
+Iraq,2017,IRQ,Asia,Country
+Iraq,2018,IRQ,Asia,Country
+Iraq,2019,IRQ,Asia,Country
+Iraq,2020,IRQ,Asia,Country
+Iraq,2021,IRQ,Asia,Country
+Iraq,2022,IRQ,Asia,Country
+Ireland,2015,IRL,Europe,Country
+Ireland,2016,IRL,Europe,Country
+Ireland,2017,IRL,Europe,Country
+Ireland,2018,IRL,Europe,Country
+Ireland,2019,IRL,Europe,Country
+Ireland,2020,IRL,Europe,Country
+Ireland,2021,IRL,Europe,Country
+Ireland,2022,IRL,Europe,Country
+Israel,2015,ISR,Asia,Country
+Israel,2016,ISR,Asia,Country
+Israel,2017,ISR,Asia,Country
+Israel,2018,ISR,Asia,Country
+Israel,2019,ISR,Asia,Country
+Israel,2020,ISR,Asia,Country
+Israel,2021,ISR,Asia,Country
+Israel,2022,ISR,Asia,Country
+Italy,2015,ITA,Europe,Country
+Italy,2016,ITA,Europe,Country
+Italy,2017,ITA,Europe,Country
+Italy,2018,ITA,Europe,Country
+Italy,2019,ITA,Europe,Country
+Italy,2020,ITA,Europe,Country
+Italy,2021,ITA,Europe,Country
+Italy,2022,ITA,Europe,Country
+Jamaica,2015,JAM,North America,Country
+Jamaica,2016,JAM,North America,Country
+Jamaica,2017,JAM,North America,Country
+Jamaica,2018,JAM,North America,Country
+Jamaica,2019,JAM,North America,Country
+Jamaica,2020,JAM,North America,Country
+Jamaica,2021,JAM,North America,Country
+Jamaica,2022,JAM,North America,Country
+Japan,2015,JPN,Asia,Country
+Japan,2016,JPN,Asia,Country
+Japan,2017,JPN,Asia,Country
+Japan,2018,JPN,Asia,Country
+Japan,2019,JPN,Asia,Country
+Japan,2020,JPN,Asia,Country
+Japan,2021,JPN,Asia,Country
+Japan,2022,JPN,Asia,Country
+Jordan,2015,JOR,Asia,Country
+Jordan,2016,JOR,Asia,Country
+Jordan,2017,JOR,Asia,Country
+Jordan,2018,JOR,Asia,Country
+Jordan,2019,JOR,Asia,Country
+Jordan,2020,JOR,Asia,Country
+Jordan,2021,JOR,Asia,Country
+Jordan,2022,JOR,Asia,Country
+Kazakhstan,2015,KAZ,Asia,Country
+Kazakhstan,2016,KAZ,Asia,Country
+Kazakhstan,2017,KAZ,Asia,Country
+Kazakhstan,2018,KAZ,Asia,Country
+Kazakhstan,2019,KAZ,Asia,Country
+Kazakhstan,2020,KAZ,Asia,Country
+Kazakhstan,2021,KAZ,Asia,Country
+Kazakhstan,2022,KAZ,Asia,Country
+Kenya,2015,KEN,Africa,Country
+Kenya,2016,KEN,Africa,Country
+Kenya,2017,KEN,Africa,Country
+Kenya,2018,KEN,Africa,Country
+Kenya,2019,KEN,Africa,Country
+Kenya,2020,KEN,Africa,Country
+Kenya,2021,KEN,Africa,Country
+Kenya,2022,KEN,Africa,Country
+Kiribati,2015,KIR,Oceania,Country
+Kiribati,2016,KIR,Oceania,Country
+Kiribati,2017,KIR,Oceania,Country
+Kiribati,2018,KIR,Oceania,Country
+Kiribati,2019,KIR,Oceania,Country
+Kiribati,2020,KIR,Oceania,Country
+Kiribati,2021,KIR,Oceania,Country
+Kiribati,2022,KIR,Oceania,Country
+Kuwait,2015,KWT,Asia,Country
+Kuwait,2016,KWT,Asia,Country
+Kuwait,2017,KWT,Asia,Country
+Kuwait,2018,KWT,Asia,Country
+Kuwait,2019,KWT,Asia,Country
+Kuwait,2020,KWT,Asia,Country
+Kuwait,2021,KWT,Asia,Country
+Kuwait,2022,KWT,Asia,Country
+Kyrgyzstan,2015,KGZ,Asia,Country
+Kyrgyzstan,2016,KGZ,Asia,Country
+Kyrgyzstan,2017,KGZ,Asia,Country
+Kyrgyzstan,2018,KGZ,Asia,Country
+Kyrgyzstan,2019,KGZ,Asia,Country
+Kyrgyzstan,2020,KGZ,Asia,Country
+Kyrgyzstan,2021,KGZ,Asia,Country
+Kyrgyzstan,2022,KGZ,Asia,Country
+Laos,2015,LAO,Asia,Country
+Laos,2016,LAO,Asia,Country
+Laos,2017,LAO,Asia,Country
+Laos,2018,LAO,Asia,Country
+Laos,2019,LAO,Asia,Country
+Laos,2020,LAO,Asia,Country
+Laos,2021,LAO,Asia,Country
+Laos,2022,LAO,Asia,Country
+Latvia,2015,LVA,Europe,Country
+Latvia,2016,LVA,Europe,Country
+Latvia,2017,LVA,Europe,Country
+Latvia,2018,LVA,Europe,Country
+Latvia,2019,LVA,Europe,Country
+Latvia,2020,LVA,Europe,Country
+Latvia,2021,LVA,Europe,Country
+Latvia,2022,LVA,Europe,Country
+Lebanon,2015,LBN,Asia,Country
+Lebanon,2016,LBN,Asia,Country
+Lebanon,2017,LBN,Asia,Country
+Lebanon,2018,LBN,Asia,Country
+Lebanon,2019,LBN,Asia,Country
+Lebanon,2020,LBN,Asia,Country
+Lebanon,2021,LBN,Asia,Country
+Lebanon,2022,LBN,Asia,Country
+Lesotho,2015,LSO,Africa,Country
+Lesotho,2016,LSO,Africa,Country
+Lesotho,2017,LSO,Africa,Country
+Lesotho,2018,LSO,Africa,Country
+Lesotho,2019,LSO,Africa,Country
+Lesotho,2020,LSO,Africa,Country
+Lesotho,2021,LSO,Africa,Country
+Lesotho,2022,LSO,Africa,Country
+Liberia,2015,LBR,Africa,Country
+Liberia,2016,LBR,Africa,Country
+Liberia,2017,LBR,Africa,Country
+Liberia,2018,LBR,Africa,Country
+Liberia,2019,LBR,Africa,Country
+Liberia,2020,LBR,Africa,Country
+Liberia,2021,LBR,Africa,Country
+Liberia,2022,LBR,Africa,Country
+Libya,2015,LBY,Africa,Country
+Libya,2016,LBY,Africa,Country
+Libya,2017,LBY,Africa,Country
+Libya,2018,LBY,Africa,Country
+Libya,2019,LBY,Africa,Country
+Libya,2020,LBY,Africa,Country
+Libya,2021,LBY,Africa,Country
+Libya,2022,LBY,Africa,Country
+Lithuania,2015,LTU,Europe,Country
+Lithuania,2016,LTU,Europe,Country
+Lithuania,2017,LTU,Europe,Country
+Lithuania,2018,LTU,Europe,Country
+Lithuania,2019,LTU,Europe,Country
+Lithuania,2020,LTU,Europe,Country
+Lithuania,2021,LTU,Europe,Country
+Lithuania,2022,LTU,Europe,Country
+Luxembourg,2015,LUX,Europe,Country
+Luxembourg,2016,LUX,Europe,Country
+Luxembourg,2017,LUX,Europe,Country
+Luxembourg,2018,LUX,Europe,Country
+Luxembourg,2019,LUX,Europe,Country
+Luxembourg,2020,LUX,Europe,Country
+Luxembourg,2021,LUX,Europe,Country
+Luxembourg,2022,LUX,Europe,Country
+Macao,2015,MAC,Other,Country
+Macao,2016,MAC,Other,Country
+Macao,2017,MAC,Other,Country
+Macao,2018,MAC,Other,Country
+Macao,2019,MAC,Other,Country
+Macao,2020,MAC,Other,Country
+Macao,2021,MAC,Other,Country
+Macao,2022,MAC,Other,Country
+Madagascar,2015,MDG,Africa,Country
+Madagascar,2016,MDG,Africa,Country
+Madagascar,2017,MDG,Africa,Country
+Madagascar,2018,MDG,Africa,Country
+Madagascar,2019,MDG,Africa,Country
+Madagascar,2020,MDG,Africa,Country
+Madagascar,2021,MDG,Africa,Country
+Madagascar,2022,MDG,Africa,Country
+Malawi,2015,MWI,Africa,Country
+Malawi,2016,MWI,Africa,Country
+Malawi,2017,MWI,Africa,Country
+Malawi,2018,MWI,Africa,Country
+Malawi,2019,MWI,Africa,Country
+Malawi,2020,MWI,Africa,Country
+Malawi,2021,MWI,Africa,Country
+Malawi,2022,MWI,Africa,Country
+Malaysia,2015,MYS,Asia,Country
+Malaysia,2016,MYS,Asia,Country
+Malaysia,2017,MYS,Asia,Country
+Malaysia,2018,MYS,Asia,Country
+Malaysia,2019,MYS,Asia,Country
+Malaysia,2020,MYS,Asia,Country
+Malaysia,2021,MYS,Asia,Country
+Malaysia,2022,MYS,Asia,Country
+Maldives,2015,MDV,Asia,Country
+Maldives,2016,MDV,Asia,Country
+Maldives,2017,MDV,Asia,Country
+Maldives,2018,MDV,Asia,Country
+Maldives,2019,MDV,Asia,Country
+Maldives,2020,MDV,Asia,Country
+Maldives,2021,MDV,Asia,Country
+Maldives,2022,MDV,Asia,Country
+Mali,2015,MLI,Africa,Country
+Mali,2016,MLI,Africa,Country
+Mali,2017,MLI,Africa,Country
+Mali,2018,MLI,Africa,Country
+Mali,2019,MLI,Africa,Country
+Mali,2020,MLI,Africa,Country
+Mali,2021,MLI,Africa,Country
+Mali,2022,MLI,Africa,Country
+Malta,2015,MLT,Europe,Country
+Malta,2016,MLT,Europe,Country
+Malta,2017,MLT,Europe,Country
+Malta,2018,MLT,Europe,Country
+Malta,2019,MLT,Europe,Country
+Malta,2020,MLT,Europe,Country
+Malta,2021,MLT,Europe,Country
+Malta,2022,MLT,Europe,Country
+Martinique,2015,MTQ,Other,Country
+Martinique,2016,MTQ,Other,Country
+Martinique,2017,MTQ,Other,Country
+Martinique,2018,MTQ,Other,Country
+Martinique,2019,MTQ,Other,Country
+Martinique,2020,MTQ,Other,Country
+Martinique,2021,MTQ,Other,Country
+Mauritania,2015,MRT,Africa,Country
+Mauritania,2016,MRT,Africa,Country
+Mauritania,2017,MRT,Africa,Country
+Mauritania,2018,MRT,Africa,Country
+Mauritania,2019,MRT,Africa,Country
+Mauritania,2020,MRT,Africa,Country
+Mauritania,2021,MRT,Africa,Country
+Mauritania,2022,MRT,Africa,Country
+Mauritius,2015,MUS,Africa,Country
+Mauritius,2016,MUS,Africa,Country
+Mauritius,2017,MUS,Africa,Country
+Mauritius,2018,MUS,Africa,Country
+Mauritius,2019,MUS,Africa,Country
+Mauritius,2020,MUS,Africa,Country
+Mauritius,2021,MUS,Africa,Country
+Mauritius,2022,MUS,Africa,Country
+Mexico,2015,MEX,North America,Country
+Mexico,2016,MEX,North America,Country
+Mexico,2017,MEX,North America,Country
+Mexico,2018,MEX,North America,Country
+Mexico,2019,MEX,North America,Country
+Mexico,2020,MEX,North America,Country
+Mexico,2021,MEX,North America,Country
+Mexico,2022,MEX,North America,Country
+Micronesia (country),2015,FSM,Oceania,Country
+Micronesia (country),2016,FSM,Oceania,Country
+Micronesia (country),2017,FSM,Oceania,Country
+Micronesia (country),2018,FSM,Oceania,Country
+Micronesia (country),2019,FSM,Oceania,Country
+Micronesia (country),2020,FSM,Oceania,Country
+Micronesia (country),2021,FSM,Oceania,Country
+Moldova,2015,MDA,Europe,Country
+Moldova,2016,MDA,Europe,Country
+Moldova,2017,MDA,Europe,Country
+Moldova,2018,MDA,Europe,Country
+Moldova,2019,MDA,Europe,Country
+Moldova,2020,MDA,Europe,Country
+Moldova,2021,MDA,Europe,Country
+Moldova,2022,MDA,Europe,Country
+Mongolia,2015,MNG,Asia,Country
+Mongolia,2016,MNG,Asia,Country
+Mongolia,2017,MNG,Asia,Country
+Mongolia,2018,MNG,Asia,Country
+Mongolia,2019,MNG,Asia,Country
+Mongolia,2020,MNG,Asia,Country
+Mongolia,2021,MNG,Asia,Country
+Mongolia,2022,MNG,Asia,Country
+Montenegro,2015,MNE,Europe,Country
+Montenegro,2016,MNE,Europe,Country
+Montenegro,2017,MNE,Europe,Country
+Montenegro,2018,MNE,Europe,Country
+Montenegro,2019,MNE,Europe,Country
+Montenegro,2020,MNE,Europe,Country
+Montenegro,2021,MNE,Europe,Country
+Montenegro,2022,MNE,Europe,Country
+Montserrat,2015,MSR,Other,Country
+Montserrat,2016,MSR,Other,Country
+Montserrat,2017,MSR,Other,Country
+Montserrat,2018,MSR,Other,Country
+Montserrat,2019,MSR,Other,Country
+Montserrat,2020,MSR,Other,Country
+Montserrat,2021,MSR,Other,Country
+Montserrat,2022,MSR,Other,Country
+Morocco,2015,MAR,Africa,Country
+Morocco,2016,MAR,Africa,Country
+Morocco,2017,MAR,Africa,Country
+Morocco,2018,MAR,Africa,Country
+Morocco,2019,MAR,Africa,Country
+Morocco,2020,MAR,Africa,Country
+Morocco,2021,MAR,Africa,Country
+Morocco,2022,MAR,Africa,Country
+Mozambique,2015,MOZ,Africa,Country
+Mozambique,2016,MOZ,Africa,Country
+Mozambique,2017,MOZ,Africa,Country
+Mozambique,2018,MOZ,Africa,Country
+Mozambique,2019,MOZ,Africa,Country
+Mozambique,2020,MOZ,Africa,Country
+Mozambique,2021,MOZ,Africa,Country
+Mozambique,2022,MOZ,Africa,Country
+Myanmar,2015,MMR,Asia,Country
+Myanmar,2016,MMR,Asia,Country
+Myanmar,2017,MMR,Asia,Country
+Myanmar,2018,MMR,Asia,Country
+Myanmar,2019,MMR,Asia,Country
+Myanmar,2020,MMR,Asia,Country
+Myanmar,2021,MMR,Asia,Country
+Myanmar,2022,MMR,Asia,Country
+Namibia,2015,NAM,Africa,Country
+Namibia,2016,NAM,Africa,Country
+Namibia,2017,NAM,Africa,Country
+Namibia,2018,NAM,Africa,Country
+Namibia,2019,NAM,Africa,Country
+Namibia,2020,NAM,Africa,Country
+Namibia,2021,NAM,Africa,Country
+Namibia,2022,NAM,Africa,Country
+Nauru,2015,NRU,Oceania,Country
+Nauru,2016,NRU,Oceania,Country
+Nauru,2017,NRU,Oceania,Country
+Nauru,2018,NRU,Oceania,Country
+Nauru,2019,NRU,Oceania,Country
+Nauru,2020,NRU,Oceania,Country
+Nauru,2021,NRU,Oceania,Country
+Nauru,2022,NRU,Oceania,Country
+Nepal,2015,NPL,Asia,Country
+Nepal,2016,NPL,Asia,Country
+Nepal,2017,NPL,Asia,Country
+Nepal,2018,NPL,Asia,Country
+Nepal,2019,NPL,Asia,Country
+Nepal,2020,NPL,Asia,Country
+Nepal,2021,NPL,Asia,Country
+Nepal,2022,NPL,Asia,Country
+Netherlands,2015,NLD,Europe,Country
+Netherlands,2016,NLD,Europe,Country
+Netherlands,2017,NLD,Europe,Country
+Netherlands,2018,NLD,Europe,Country
+Netherlands,2019,NLD,Europe,Country
+Netherlands,2020,NLD,Europe,Country
+Netherlands,2021,NLD,Europe,Country
+Netherlands,2022,NLD,Europe,Country
+Netherlands Antilles,2015,ANT,Other,Country
+Netherlands Antilles,2016,ANT,Other,Country
+Netherlands Antilles,2017,ANT,Other,Country
+Netherlands Antilles,2018,ANT,Other,Country
+Netherlands Antilles,2019,ANT,Other,Country
+Netherlands Antilles,2020,ANT,Other,Country
+Netherlands Antilles,2021,ANT,Other,Country
+New Caledonia,2015,NCL,Other,Country
+New Caledonia,2016,NCL,Other,Country
+New Caledonia,2017,NCL,Other,Country
+New Caledonia,2018,NCL,Other,Country
+New Caledonia,2019,NCL,Other,Country
+New Caledonia,2020,NCL,Other,Country
+New Caledonia,2021,NCL,Other,Country
+New Caledonia,2022,NCL,Other,Country
+New Zealand,2015,NZL,Oceania,Country
+New Zealand,2016,NZL,Oceania,Country
+New Zealand,2017,NZL,Oceania,Country
+New Zealand,2018,NZL,Oceania,Country
+New Zealand,2019,NZL,Oceania,Country
+New Zealand,2020,NZL,Oceania,Country
+New Zealand,2021,NZL,Oceania,Country
+New Zealand,2022,NZL,Oceania,Country
+Nicaragua,2015,NIC,North America,Country
+Nicaragua,2016,NIC,North America,Country
+Nicaragua,2017,NIC,North America,Country
+Nicaragua,2018,NIC,North America,Country
+Nicaragua,2019,NIC,North America,Country
+Nicaragua,2020,NIC,North America,Country
+Nicaragua,2021,NIC,North America,Country
+Nicaragua,2022,NIC,North America,Country
+Niger,2015,NER,Africa,Country
+Niger,2016,NER,Africa,Country
+Niger,2017,NER,Africa,Country
+Niger,2018,NER,Africa,Country
+Niger,2019,NER,Africa,Country
+Niger,2020,NER,Africa,Country
+Niger,2021,NER,Africa,Country
+Niger,2022,NER,Africa,Country
+Nigeria,2015,NGA,Africa,Country
+Nigeria,2016,NGA,Africa,Country
+Nigeria,2017,NGA,Africa,Country
+Nigeria,2018,NGA,Africa,Country
+Nigeria,2019,NGA,Africa,Country
+Nigeria,2020,NGA,Africa,Country
+Nigeria,2021,NGA,Africa,Country
+Nigeria,2022,NGA,Africa,Country
+Niue,2015,NIU,Other,Country
+Niue,2016,NIU,Other,Country
+Niue,2017,NIU,Other,Country
+Niue,2018,NIU,Other,Country
+Niue,2019,NIU,Other,Country
+Niue,2020,NIU,Other,Country
+Niue,2021,NIU,Other,Country
+Niue,2022,NIU,Other,Country
+North Korea,2015,PRK,Asia,Country
+North Korea,2016,PRK,Asia,Country
+North Korea,2017,PRK,Asia,Country
+North Korea,2018,PRK,Asia,Country
+North Korea,2019,PRK,Asia,Country
+North Korea,2020,PRK,Asia,Country
+North Korea,2021,PRK,Asia,Country
+North Korea,2022,PRK,Asia,Country
+North Macedonia,2015,MKD,Europe,Country
+North Macedonia,2016,MKD,Europe,Country
+North Macedonia,2017,MKD,Europe,Country
+North Macedonia,2018,MKD,Europe,Country
+North Macedonia,2019,MKD,Europe,Country
+North Macedonia,2020,MKD,Europe,Country
+North Macedonia,2021,MKD,Europe,Country
+North Macedonia,2022,MKD,Europe,Country
+Northern Mariana Islands,2015,MNP,Other,Country
+Northern Mariana Islands,2016,MNP,Other,Country
+Northern Mariana Islands,2017,MNP,Other,Country
+Northern Mariana Islands,2018,MNP,Other,Country
+Northern Mariana Islands,2019,MNP,Other,Country
+Northern Mariana Islands,2020,MNP,Other,Country
+Northern Mariana Islands,2021,MNP,Other,Country
+Norway,2015,NOR,Europe,Country
+Norway,2016,NOR,Europe,Country
+Norway,2017,NOR,Europe,Country
+Norway,2018,NOR,Europe,Country
+Norway,2019,NOR,Europe,Country
+Norway,2020,NOR,Europe,Country
+Norway,2021,NOR,Europe,Country
+Norway,2022,NOR,Europe,Country
+Oman,2015,OMN,Asia,Country
+Oman,2016,OMN,Asia,Country
+Oman,2017,OMN,Asia,Country
+Oman,2018,OMN,Asia,Country
+Oman,2019,OMN,Asia,Country
+Oman,2020,OMN,Asia,Country
+Oman,2021,OMN,Asia,Country
+Oman,2022,OMN,Asia,Country
+Pakistan,2015,PAK,Asia,Country
+Pakistan,2016,PAK,Asia,Country
+Pakistan,2017,PAK,Asia,Country
+Pakistan,2018,PAK,Asia,Country
+Pakistan,2019,PAK,Asia,Country
+Pakistan,2020,PAK,Asia,Country
+Pakistan,2021,PAK,Asia,Country
+Pakistan,2022,PAK,Asia,Country
+Palestine,2015,PSE,Asia,Country
+Palestine,2016,PSE,Asia,Country
+Palestine,2017,PSE,Asia,Country
+Palestine,2018,PSE,Asia,Country
+Palestine,2019,PSE,Asia,Country
+Palestine,2020,PSE,Asia,Country
+Palestine,2021,PSE,Asia,Country
+Palestine,2022,PSE,Asia,Country
+Panama,2015,PAN,North America,Country
+Panama,2016,PAN,North America,Country
+Panama,2017,PAN,North America,Country
+Panama,2018,PAN,North America,Country
+Panama,2019,PAN,North America,Country
+Panama,2020,PAN,North America,Country
+Panama,2021,PAN,North America,Country
+Panama,2022,PAN,North America,Country
+Papua New Guinea,2015,PNG,Oceania,Country
+Papua New Guinea,2016,PNG,Oceania,Country
+Papua New Guinea,2017,PNG,Oceania,Country
+Papua New Guinea,2018,PNG,Oceania,Country
+Papua New Guinea,2019,PNG,Oceania,Country
+Papua New Guinea,2020,PNG,Oceania,Country
+Papua New Guinea,2021,PNG,Oceania,Country
+Papua New Guinea,2022,PNG,Oceania,Country
+Paraguay,2015,PRY,South America,Country
+Paraguay,2016,PRY,South America,Country
+Paraguay,2017,PRY,South America,Country
+Paraguay,2018,PRY,South America,Country
+Paraguay,2019,PRY,South America,Country
+Paraguay,2020,PRY,South America,Country
+Paraguay,2021,PRY,South America,Country
+Paraguay,2022,PRY,South America,Country
+Peru,2015,PER,South America,Country
+Peru,2016,PER,South America,Country
+Peru,2017,PER,South America,Country
+Peru,2018,PER,South America,Country
+Peru,2019,PER,South America,Country
+Peru,2020,PER,South America,Country
+Peru,2021,PER,South America,Country
+Peru,2022,PER,South America,Country
+Philippines,2015,PHL,Asia,Country
+Philippines,2016,PHL,Asia,Country
+Philippines,2017,PHL,Asia,Country
+Philippines,2018,PHL,Asia,Country
+Philippines,2019,PHL,Asia,Country
+Philippines,2020,PHL,Asia,Country
+Philippines,2021,PHL,Asia,Country
+Philippines,2022,PHL,Asia,Country
+Poland,2015,POL,Europe,Country
+Poland,2016,POL,Europe,Country
+Poland,2017,POL,Europe,Country
+Poland,2018,POL,Europe,Country
+Poland,2019,POL,Europe,Country
+Poland,2020,POL,Europe,Country
+Poland,2021,POL,Europe,Country
+Poland,2022,POL,Europe,Country
+Portugal,2015,PRT,Europe,Country
+Portugal,2016,PRT,Europe,Country
+Portugal,2017,PRT,Europe,Country
+Portugal,2018,PRT,Europe,Country
+Portugal,2019,PRT,Europe,Country
+Portugal,2020,PRT,Europe,Country
+Portugal,2021,PRT,Europe,Country
+Portugal,2022,PRT,Europe,Country
+Puerto Rico,2015,PRI,Other,Country
+Puerto Rico,2016,PRI,Other,Country
+Puerto Rico,2017,PRI,Other,Country
+Puerto Rico,2018,PRI,Other,Country
+Puerto Rico,2019,PRI,Other,Country
+Puerto Rico,2020,PRI,Other,Country
+Puerto Rico,2021,PRI,Other,Country
+Puerto Rico,2022,PRI,Other,Country
+Qatar,2015,QAT,Asia,Country
+Qatar,2016,QAT,Asia,Country
+Qatar,2017,QAT,Asia,Country
+Qatar,2018,QAT,Asia,Country
+Qatar,2019,QAT,Asia,Country
+Qatar,2020,QAT,Asia,Country
+Qatar,2021,QAT,Asia,Country
+Qatar,2022,QAT,Asia,Country
+Reunion,2015,REU,Other,Country
+Reunion,2016,REU,Other,Country
+Reunion,2017,REU,Other,Country
+Reunion,2018,REU,Other,Country
+Reunion,2019,REU,Other,Country
+Reunion,2020,REU,Other,Country
+Reunion,2021,REU,Other,Country
+Romania,2015,ROU,Europe,Country
+Romania,2016,ROU,Europe,Country
+Romania,2017,ROU,Europe,Country
+Romania,2018,ROU,Europe,Country
+Romania,2019,ROU,Europe,Country
+Romania,2020,ROU,Europe,Country
+Romania,2021,ROU,Europe,Country
+Romania,2022,ROU,Europe,Country
+Russia,2015,RUS,Europe,Country
+Russia,2016,RUS,Europe,Country
+Russia,2017,RUS,Europe,Country
+Russia,2018,RUS,Europe,Country
+Russia,2019,RUS,Europe,Country
+Russia,2020,RUS,Europe,Country
+Russia,2021,RUS,Europe,Country
+Russia,2022,RUS,Europe,Country
+Rwanda,2015,RWA,Africa,Country
+Rwanda,2016,RWA,Africa,Country
+Rwanda,2017,RWA,Africa,Country
+Rwanda,2018,RWA,Africa,Country
+Rwanda,2019,RWA,Africa,Country
+Rwanda,2020,RWA,Africa,Country
+Rwanda,2021,RWA,Africa,Country
+Rwanda,2022,RWA,Africa,Country
+Saint Helena,2015,SHN,Other,Country
+Saint Helena,2016,SHN,Other,Country
+Saint Helena,2017,SHN,Other,Country
+Saint Helena,2018,SHN,Other,Country
+Saint Helena,2019,SHN,Other,Country
+Saint Helena,2020,SHN,Other,Country
+Saint Helena,2021,SHN,Other,Country
+Saint Helena,2022,SHN,Other,Country
+Saint Kitts and Nevis,2015,KNA,North America,Country
+Saint Kitts and Nevis,2016,KNA,North America,Country
+Saint Kitts and Nevis,2017,KNA,North America,Country
+Saint Kitts and Nevis,2018,KNA,North America,Country
+Saint Kitts and Nevis,2019,KNA,North America,Country
+Saint Kitts and Nevis,2020,KNA,North America,Country
+Saint Kitts and Nevis,2021,KNA,North America,Country
+Saint Kitts and Nevis,2022,KNA,North America,Country
+Saint Lucia,2015,LCA,North America,Country
+Saint Lucia,2016,LCA,North America,Country
+Saint Lucia,2017,LCA,North America,Country
+Saint Lucia,2018,LCA,North America,Country
+Saint Lucia,2019,LCA,North America,Country
+Saint Lucia,2020,LCA,North America,Country
+Saint Lucia,2021,LCA,North America,Country
+Saint Lucia,2022,LCA,North America,Country
+Saint Pierre and Miquelon,2015,SPM,Other,Country
+Saint Pierre and Miquelon,2016,SPM,Other,Country
+Saint Pierre and Miquelon,2017,SPM,Other,Country
+Saint Pierre and Miquelon,2018,SPM,Other,Country
+Saint Pierre and Miquelon,2019,SPM,Other,Country
+Saint Pierre and Miquelon,2020,SPM,Other,Country
+Saint Pierre and Miquelon,2021,SPM,Other,Country
+Saint Pierre and Miquelon,2022,SPM,Other,Country
+Saint Vincent and the Grenadines,2015,VCT,North America,Country
+Saint Vincent and the Grenadines,2016,VCT,North America,Country
+Saint Vincent and the Grenadines,2017,VCT,North America,Country
+Saint Vincent and the Grenadines,2018,VCT,North America,Country
+Saint Vincent and the Grenadines,2019,VCT,North America,Country
+Saint Vincent and the Grenadines,2020,VCT,North America,Country
+Saint Vincent and the Grenadines,2021,VCT,North America,Country
+Saint Vincent and the Grenadines,2022,VCT,North America,Country
+Samoa,2015,WSM,Oceania,Country
+Samoa,2016,WSM,Oceania,Country
+Samoa,2017,WSM,Oceania,Country
+Samoa,2018,WSM,Oceania,Country
+Samoa,2019,WSM,Oceania,Country
+Samoa,2020,WSM,Oceania,Country
+Samoa,2021,WSM,Oceania,Country
+Samoa,2022,WSM,Oceania,Country
+Sao Tome and Principe,2015,STP,Africa,Country
+Sao Tome and Principe,2016,STP,Africa,Country
+Sao Tome and Principe,2017,STP,Africa,Country
+Sao Tome and Principe,2018,STP,Africa,Country
+Sao Tome and Principe,2019,STP,Africa,Country
+Sao Tome and Principe,2020,STP,Africa,Country
+Sao Tome and Principe,2021,STP,Africa,Country
+Sao Tome and Principe,2022,STP,Africa,Country
+Saudi Arabia,2015,SAU,Asia,Country
+Saudi Arabia,2016,SAU,Asia,Country
+Saudi Arabia,2017,SAU,Asia,Country
+Saudi Arabia,2018,SAU,Asia,Country
+Saudi Arabia,2019,SAU,Asia,Country
+Saudi Arabia,2020,SAU,Asia,Country
+Saudi Arabia,2021,SAU,Asia,Country
+Saudi Arabia,2022,SAU,Asia,Country
+Senegal,2015,SEN,Africa,Country
+Senegal,2016,SEN,Africa,Country
+Senegal,2017,SEN,Africa,Country
+Senegal,2018,SEN,Africa,Country
+Senegal,2019,SEN,Africa,Country
+Senegal,2020,SEN,Africa,Country
+Senegal,2021,SEN,Africa,Country
+Senegal,2022,SEN,Africa,Country
+Serbia,2015,SRB,Europe,Country
+Serbia,2016,SRB,Europe,Country
+Serbia,2017,SRB,Europe,Country
+Serbia,2018,SRB,Europe,Country
+Serbia,2019,SRB,Europe,Country
+Serbia,2020,SRB,Europe,Country
+Serbia,2021,SRB,Europe,Country
+Serbia,2022,SRB,Europe,Country
+Seychelles,2015,SYC,Africa,Country
+Seychelles,2016,SYC,Africa,Country
+Seychelles,2017,SYC,Africa,Country
+Seychelles,2018,SYC,Africa,Country
+Seychelles,2019,SYC,Africa,Country
+Seychelles,2020,SYC,Africa,Country
+Seychelles,2021,SYC,Africa,Country
+Seychelles,2022,SYC,Africa,Country
+Sierra Leone,2015,SLE,Africa,Country
+Sierra Leone,2016,SLE,Africa,Country
+Sierra Leone,2017,SLE,Africa,Country
+Sierra Leone,2018,SLE,Africa,Country
+Sierra Leone,2019,SLE,Africa,Country
+Sierra Leone,2020,SLE,Africa,Country
+Sierra Leone,2021,SLE,Africa,Country
+Sierra Leone,2022,SLE,Africa,Country
+Singapore,2015,SGP,Asia,Country
+Singapore,2016,SGP,Asia,Country
+Singapore,2017,SGP,Asia,Country
+Singapore,2018,SGP,Asia,Country
+Singapore,2019,SGP,Asia,Country
+Singapore,2020,SGP,Asia,Country
+Singapore,2021,SGP,Asia,Country
+Singapore,2022,SGP,Asia,Country
+Slovakia,2015,SVK,Europe,Country
+Slovakia,2016,SVK,Europe,Country
+Slovakia,2017,SVK,Europe,Country
+Slovakia,2018,SVK,Europe,Country
+Slovakia,2019,SVK,Europe,Country
+Slovakia,2020,SVK,Europe,Country
+Slovakia,2021,SVK,Europe,Country
+Slovakia,2022,SVK,Europe,Country
+Slovenia,2015,SVN,Europe,Country
+Slovenia,2016,SVN,Europe,Country
+Slovenia,2017,SVN,Europe,Country
+Slovenia,2018,SVN,Europe,Country
+Slovenia,2019,SVN,Europe,Country
+Slovenia,2020,SVN,Europe,Country
+Slovenia,2021,SVN,Europe,Country
+Slovenia,2022,SVN,Europe,Country
+Solomon Islands,2015,SLB,Oceania,Country
+Solomon Islands,2016,SLB,Oceania,Country
+Solomon Islands,2017,SLB,Oceania,Country
+Solomon Islands,2018,SLB,Oceania,Country
+Solomon Islands,2019,SLB,Oceania,Country
+Solomon Islands,2020,SLB,Oceania,Country
+Solomon Islands,2021,SLB,Oceania,Country
+Solomon Islands,2022,SLB,Oceania,Country
+Somalia,2015,SOM,Africa,Country
+Somalia,2016,SOM,Africa,Country
+Somalia,2017,SOM,Africa,Country
+Somalia,2018,SOM,Africa,Country
+Somalia,2019,SOM,Africa,Country
+Somalia,2020,SOM,Africa,Country
+Somalia,2021,SOM,Africa,Country
+Somalia,2022,SOM,Africa,Country
+South Africa,2015,ZAF,Africa,Country
+South Africa,2016,ZAF,Africa,Country
+South Africa,2017,ZAF,Africa,Country
+South Africa,2018,ZAF,Africa,Country
+South Africa,2019,ZAF,Africa,Country
+South Africa,2020,ZAF,Africa,Country
+South Africa,2021,ZAF,Africa,Country
+South Africa,2022,ZAF,Africa,Country
+South Korea,2015,KOR,Asia,Country
+South Korea,2016,KOR,Asia,Country
+South Korea,2017,KOR,Asia,Country
+South Korea,2018,KOR,Asia,Country
+South Korea,2019,KOR,Asia,Country
+South Korea,2020,KOR,Asia,Country
+South Korea,2021,KOR,Asia,Country
+South Korea,2022,KOR,Asia,Country
+South Sudan,2015,SSD,Africa,Country
+South Sudan,2016,SSD,Africa,Country
+South Sudan,2017,SSD,Africa,Country
+South Sudan,2018,SSD,Africa,Country
+South Sudan,2019,SSD,Africa,Country
+South Sudan,2020,SSD,Africa,Country
+South Sudan,2021,SSD,Africa,Country
+South Sudan,2022,SSD,Africa,Country
+Spain,2015,ESP,Europe,Country
+Spain,2016,ESP,Europe,Country
+Spain,2017,ESP,Europe,Country
+Spain,2018,ESP,Europe,Country
+Spain,2019,ESP,Europe,Country
+Spain,2020,ESP,Europe,Country
+Spain,2021,ESP,Europe,Country
+Spain,2022,ESP,Europe,Country
+Sri Lanka,2015,LKA,Asia,Country
+Sri Lanka,2016,LKA,Asia,Country
+Sri Lanka,2017,LKA,Asia,Country
+Sri Lanka,2018,LKA,Asia,Country
+Sri Lanka,2019,LKA,Asia,Country
+Sri Lanka,2020,LKA,Asia,Country
+Sri Lanka,2021,LKA,Asia,Country
+Sri Lanka,2022,LKA,Asia,Country
+Sudan,2015,SDN,Africa,Country
+Sudan,2016,SDN,Africa,Country
+Sudan,2017,SDN,Africa,Country
+Sudan,2018,SDN,Africa,Country
+Sudan,2019,SDN,Africa,Country
+Sudan,2020,SDN,Africa,Country
+Sudan,2021,SDN,Africa,Country
+Sudan,2022,SDN,Africa,Country
+Suriname,2015,SUR,South America,Country
+Suriname,2016,SUR,South America,Country
+Suriname,2017,SUR,South America,Country
+Suriname,2018,SUR,South America,Country
+Suriname,2019,SUR,South America,Country
+Suriname,2020,SUR,South America,Country
+Suriname,2021,SUR,South America,Country
+Suriname,2022,SUR,South America,Country
+Sweden,2015,SWE,Europe,Country
+Sweden,2016,SWE,Europe,Country
+Sweden,2017,SWE,Europe,Country
+Sweden,2018,SWE,Europe,Country
+Sweden,2019,SWE,Europe,Country
+Sweden,2020,SWE,Europe,Country
+Sweden,2021,SWE,Europe,Country
+Sweden,2022,SWE,Europe,Country
+Switzerland,2015,CHE,Europe,Country
+Switzerland,2016,CHE,Europe,Country
+Switzerland,2017,CHE,Europe,Country
+Switzerland,2018,CHE,Europe,Country
+Switzerland,2019,CHE,Europe,Country
+Switzerland,2020,CHE,Europe,Country
+Switzerland,2021,CHE,Europe,Country
+Switzerland,2022,CHE,Europe,Country
+Syria,2015,SYR,Asia,Country
+Syria,2016,SYR,Asia,Country
+Syria,2017,SYR,Asia,Country
+Syria,2018,SYR,Asia,Country
+Syria,2019,SYR,Asia,Country
+Syria,2020,SYR,Asia,Country
+Syria,2021,SYR,Asia,Country
+Syria,2022,SYR,Asia,Country
+Taiwan,2015,TWN,Asia,Country
+Taiwan,2016,TWN,Asia,Country
+Taiwan,2017,TWN,Asia,Country
+Taiwan,2018,TWN,Asia,Country
+Taiwan,2019,TWN,Asia,Country
+Taiwan,2020,TWN,Asia,Country
+Taiwan,2021,TWN,Asia,Country
+Taiwan,2022,TWN,Asia,Country
+Tajikistan,2015,TJK,Asia,Country
+Tajikistan,2016,TJK,Asia,Country
+Tajikistan,2017,TJK,Asia,Country
+Tajikistan,2018,TJK,Asia,Country
+Tajikistan,2019,TJK,Asia,Country
+Tajikistan,2020,TJK,Asia,Country
+Tajikistan,2021,TJK,Asia,Country
+Tajikistan,2022,TJK,Asia,Country
+Tanzania,2015,TZA,Africa,Country
+Tanzania,2016,TZA,Africa,Country
+Tanzania,2017,TZA,Africa,Country
+Tanzania,2018,TZA,Africa,Country
+Tanzania,2019,TZA,Africa,Country
+Tanzania,2020,TZA,Africa,Country
+Tanzania,2021,TZA,Africa,Country
+Tanzania,2022,TZA,Africa,Country
+Thailand,2015,THA,Asia,Country
+Thailand,2016,THA,Asia,Country
+Thailand,2017,THA,Asia,Country
+Thailand,2018,THA,Asia,Country
+Thailand,2019,THA,Asia,Country
+Thailand,2020,THA,Asia,Country
+Thailand,2021,THA,Asia,Country
+Thailand,2022,THA,Asia,Country
+Togo,2015,TGO,Africa,Country
+Togo,2016,TGO,Africa,Country
+Togo,2017,TGO,Africa,Country
+Togo,2018,TGO,Africa,Country
+Togo,2019,TGO,Africa,Country
+Togo,2020,TGO,Africa,Country
+Togo,2021,TGO,Africa,Country
+Togo,2022,TGO,Africa,Country
+Tonga,2015,TON,Oceania,Country
+Tonga,2016,TON,Oceania,Country
+Tonga,2017,TON,Oceania,Country
+Tonga,2018,TON,Oceania,Country
+Tonga,2019,TON,Oceania,Country
+Tonga,2020,TON,Oceania,Country
+Tonga,2021,TON,Oceania,Country
+Tonga,2022,TON,Oceania,Country
+Trinidad and Tobago,2015,TTO,North America,Country
+Trinidad and Tobago,2016,TTO,North America,Country
+Trinidad and Tobago,2017,TTO,North America,Country
+Trinidad and Tobago,2018,TTO,North America,Country
+Trinidad and Tobago,2019,TTO,North America,Country
+Trinidad and Tobago,2020,TTO,North America,Country
+Trinidad and Tobago,2021,TTO,North America,Country
+Trinidad and Tobago,2022,TTO,North America,Country
+Tunisia,2015,TUN,Africa,Country
+Tunisia,2016,TUN,Africa,Country
+Tunisia,2017,TUN,Africa,Country
+Tunisia,2018,TUN,Africa,Country
+Tunisia,2019,TUN,Africa,Country
+Tunisia,2020,TUN,Africa,Country
+Tunisia,2021,TUN,Africa,Country
+Tunisia,2022,TUN,Africa,Country
+Turkey,2015,TUR,Asia,Country
+Turkey,2016,TUR,Asia,Country
+Turkey,2017,TUR,Asia,Country
+Turkey,2018,TUR,Asia,Country
+Turkey,2019,TUR,Asia,Country
+Turkey,2020,TUR,Asia,Country
+Turkey,2021,TUR,Asia,Country
+Turkey,2022,TUR,Asia,Country
+Turkmenistan,2015,TKM,Asia,Country
+Turkmenistan,2016,TKM,Asia,Country
+Turkmenistan,2017,TKM,Asia,Country
+Turkmenistan,2018,TKM,Asia,Country
+Turkmenistan,2019,TKM,Asia,Country
+Turkmenistan,2020,TKM,Asia,Country
+Turkmenistan,2021,TKM,Asia,Country
+Turkmenistan,2022,TKM,Asia,Country
+Turks and Caicos Islands,2015,TCA,Other,Country
+Turks and Caicos Islands,2016,TCA,Other,Country
+Turks and Caicos Islands,2017,TCA,Other,Country
+Turks and Caicos Islands,2018,TCA,Other,Country
+Turks and Caicos Islands,2019,TCA,Other,Country
+Turks and Caicos Islands,2020,TCA,Other,Country
+Turks and Caicos Islands,2021,TCA,Other,Country
+Turks and Caicos Islands,2022,TCA,Other,Country
+Tuvalu,2015,TUV,Oceania,Country
+Tuvalu,2016,TUV,Oceania,Country
+Tuvalu,2017,TUV,Oceania,Country
+Tuvalu,2018,TUV,Oceania,Country
+Tuvalu,2019,TUV,Oceania,Country
+Tuvalu,2020,TUV,Oceania,Country
+Tuvalu,2021,TUV,Oceania,Country
+Uganda,2015,UGA,Africa,Country
+Uganda,2016,UGA,Africa,Country
+Uganda,2017,UGA,Africa,Country
+Uganda,2018,UGA,Africa,Country
+Uganda,2019,UGA,Africa,Country
+Uganda,2020,UGA,Africa,Country
+Uganda,2021,UGA,Africa,Country
+Uganda,2022,UGA,Africa,Country
+Ukraine,2015,UKR,Europe,Country
+Ukraine,2016,UKR,Europe,Country
+Ukraine,2017,UKR,Europe,Country
+Ukraine,2018,UKR,Europe,Country
+Ukraine,2019,UKR,Europe,Country
+Ukraine,2020,UKR,Europe,Country
+Ukraine,2021,UKR,Europe,Country
+Ukraine,2022,UKR,Europe,Country
+United Arab Emirates,2015,ARE,Asia,Country
+United Arab Emirates,2016,ARE,Asia,Country
+United Arab Emirates,2017,ARE,Asia,Country
+United Arab Emirates,2018,ARE,Asia,Country
+United Arab Emirates,2019,ARE,Asia,Country
+United Arab Emirates,2020,ARE,Asia,Country
+United Arab Emirates,2021,ARE,Asia,Country
+United Arab Emirates,2022,ARE,Asia,Country
+United Kingdom,2015,GBR,Europe,Country
+United Kingdom,2016,GBR,Europe,Country
+United Kingdom,2017,GBR,Europe,Country
+United Kingdom,2018,GBR,Europe,Country
+United Kingdom,2019,GBR,Europe,Country
+United Kingdom,2020,GBR,Europe,Country
+United Kingdom,2021,GBR,Europe,Country
+United Kingdom,2022,GBR,Europe,Country
+United States,2015,USA,North America,Country
+United States,2016,USA,North America,Country
+United States,2017,USA,North America,Country
+United States,2018,USA,North America,Country
+United States,2019,USA,North America,Country
+United States,2020,USA,North America,Country
+United States,2021,USA,North America,Country
+United States,2022,USA,North America,Country
+United States Virgin Islands,2015,VIR,Other,Country
+United States Virgin Islands,2016,VIR,Other,Country
+United States Virgin Islands,2017,VIR,Other,Country
+United States Virgin Islands,2018,VIR,Other,Country
+United States Virgin Islands,2019,VIR,Other,Country
+United States Virgin Islands,2020,VIR,Other,Country
+United States Virgin Islands,2021,VIR,Other,Country
+United States Virgin Islands,2022,VIR,Other,Country
+Uruguay,2015,URY,South America,Country
+Uruguay,2016,URY,South America,Country
+Uruguay,2017,URY,South America,Country
+Uruguay,2018,URY,South America,Country
+Uruguay,2019,URY,South America,Country
+Uruguay,2020,URY,South America,Country
+Uruguay,2021,URY,South America,Country
+Uruguay,2022,URY,South America,Country
+Uzbekistan,2015,UZB,Asia,Country
+Uzbekistan,2016,UZB,Asia,Country
+Uzbekistan,2017,UZB,Asia,Country
+Uzbekistan,2018,UZB,Asia,Country
+Uzbekistan,2019,UZB,Asia,Country
+Uzbekistan,2020,UZB,Asia,Country
+Uzbekistan,2021,UZB,Asia,Country
+Uzbekistan,2022,UZB,Asia,Country
+Vanuatu,2015,VUT,Oceania,Country
+Vanuatu,2016,VUT,Oceania,Country
+Vanuatu,2017,VUT,Oceania,Country
+Vanuatu,2018,VUT,Oceania,Country
+Vanuatu,2019,VUT,Oceania,Country
+Vanuatu,2020,VUT,Oceania,Country
+Vanuatu,2021,VUT,Oceania,Country
+Vanuatu,2022,VUT,Oceania,Country
+Venezuela,2015,VEN,South America,Country
+Venezuela,2016,VEN,South America,Country
+Venezuela,2017,VEN,South America,Country
+Venezuela,2018,VEN,South America,Country
+Venezuela,2019,VEN,South America,Country
+Venezuela,2020,VEN,South America,Country
+Venezuela,2021,VEN,South America,Country
+Venezuela,2022,VEN,South America,Country
+Vietnam,2015,VNM,Asia,Country
+Vietnam,2016,VNM,Asia,Country
+Vietnam,2017,VNM,Asia,Country
+Vietnam,2018,VNM,Asia,Country
+Vietnam,2019,VNM,Asia,Country
+Vietnam,2020,VNM,Asia,Country
+Vietnam,2021,VNM,Asia,Country
+Vietnam,2022,VNM,Asia,Country
+Western Sahara,2015,ESH,Other,Country
+Western Sahara,2016,ESH,Other,Country
+Western Sahara,2017,ESH,Other,Country
+Western Sahara,2018,ESH,Other,Country
+Western Sahara,2019,ESH,Other,Country
+Western Sahara,2020,ESH,Other,Country
+Western Sahara,2021,ESH,Other,Country
+Yemen,2015,YEM,Asia,Country
+Yemen,2016,YEM,Asia,Country
+Yemen,2017,YEM,Asia,Country
+Yemen,2018,YEM,Asia,Country
+Yemen,2019,YEM,Asia,Country
+Yemen,2020,YEM,Asia,Country
+Yemen,2021,YEM,Asia,Country
+Yemen,2022,YEM,Asia,Country
+Zambia,2015,ZMB,Africa,Country
+Zambia,2016,ZMB,Africa,Country
+Zambia,2017,ZMB,Africa,Country
+Zambia,2018,ZMB,Africa,Country
+Zambia,2019,ZMB,Africa,Country
+Zambia,2020,ZMB,Africa,Country
+Zambia,2021,ZMB,Africa,Country
+Zambia,2022,ZMB,Africa,Country
+Zimbabwe,2015,ZWE,Africa,Country
+Zimbabwe,2016,ZWE,Africa,Country
+Zimbabwe,2017,ZWE,Africa,Country
+Zimbabwe,2018,ZWE,Africa,Country
+Zimbabwe,2019,ZWE,Africa,Country
+Zimbabwe,2020,ZWE,Africa,Country
+Zimbabwe,2021,ZWE,Africa,Country
+Zimbabwe,2022,ZWE,Africa,Country
+Africa,2015,NA,Africa,Continent
+Africa,2016,NA,Africa,Continent
+Africa,2017,NA,Africa,Continent
+Africa,2018,NA,Africa,Continent
+Africa,2019,NA,Africa,Continent
+Africa,2020,NA,Africa,Continent
+Africa,2021,NA,Africa,Continent
+Africa,2022,NA,Africa,Continent
+Asia,2015,NA,Asia,Continent
+Asia,2016,NA,Asia,Continent
+Asia,2017,NA,Asia,Continent
+Asia,2018,NA,Asia,Continent
+Asia,2019,NA,Asia,Continent
+Asia,2020,NA,Asia,Continent
+Asia,2021,NA,Asia,Continent
+Asia,2022,NA,Asia,Continent
+Europe,2015,NA,Europe,Continent
+Europe,2016,NA,Europe,Continent
+Europe,2017,NA,Europe,Continent
+Europe,2018,NA,Europe,Continent
+Europe,2019,NA,Europe,Continent
+Europe,2020,NA,Europe,Continent
+Europe,2021,NA,Europe,Continent
+Europe,2022,NA,Europe,Continent
+North America,2015,NA,North America,Continent
+North America,2016,NA,North America,Continent
+North America,2017,NA,North America,Continent
+North America,2018,NA,North America,Continent
+North America,2019,NA,North America,Continent
+North America,2020,NA,North America,Continent
+North America,2021,NA,North America,Continent
+North America,2022,NA,North America,Continent
+Oceania,2015,NA,Oceania,Continent
+Oceania,2016,NA,Oceania,Continent
+Oceania,2017,NA,Oceania,Continent
+Oceania,2018,NA,Oceania,Continent
+Oceania,2019,NA,Oceania,Continent
+Oceania,2020,NA,Oceania,Continent
+Oceania,2021,NA,Oceania,Continent
+Oceania,2022,NA,Oceania,Continent
+South America,2015,NA,South America,Continent
+South America,2016,NA,South America,Continent
+South America,2017,NA,South America,Continent
+South America,2018,NA,South America,Continent
+South America,2019,NA,South America,Continent
+South America,2020,NA,South America,Continent
+South America,2021,NA,South America,Continent
+South America,2022,NA,South America,Continent
+Developed,2015,NA,NA,Development Status
+Developed,2016,NA,NA,Development Status
+Developed,2017,NA,NA,Development Status
+Developed,2018,NA,NA,Development Status
+Developed,2019,NA,NA,Development Status
+Developed,2020,NA,NA,Development Status
+Developed,2021,NA,NA,Development Status
+Developed,2022,NA,NA,Development Status
+Developing,2015,NA,NA,Development Status
+Developing,2016,NA,NA,Development Status
+Developing,2017,NA,NA,Development Status
+Developing,2018,NA,NA,Development Status
+Developing,2019,NA,NA,Development Status
+Developing,2020,NA,NA,Development Status
+Developing,2021,NA,NA,Development Status
+Developing,2022,NA,NA,Development Status
