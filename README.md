@@ -64,10 +64,10 @@ Net-Zero 2050 is the core benchmark of climate policy.  Visualising real-world p
 ## 5  Research Questions  
 
 * **RQ 1 – Renewable Share Trajectory**  
-  *How quickly has the share of renewables in primary energy grown since 2000, and which regions are on track to cross the 60 % renewables threshold before 2050?*
+  *How quickly has the share of renewables in primary energy grown since 2015, and which regions are on track to cross the 60% renewables threshold before 2050?*
 
 * **RQ 2 – Renewable Growth vs Emission Decline**  
-  *For the ten largest emitters, does the average annual growth rate of renewable electricity generation (2010–2023) exceed the annual GHG-reduction rate required to hit Net-Zero by 2050?*
+  *For the ten largest emitters, does the average annual growth rate of renewable electricity generation (2015–2022) exceed the annual GHG-reduction rate required to hit Net-Zero by 2050?*
 
 ---
 
@@ -75,8 +75,8 @@ Net-Zero 2050 is the core benchmark of climate policy.  Visualising real-world p
 | Week | **Dong** | **Minh** | Deliverable |
 |------|----------------------------|--------------------------------|-------------|
 | 1 | • Design repo structure<br>• Download Kaggle dataset<br>• Write & debug `crawl_climatewatch.py`<br>• Draft data dictionary skeleton | • Verify ISO-3 country codes & variable names<br>• Collect API doc links & licence notes | `/data/raw/` populated; working crawler; initial data-dictionary .md |
-| 2 | • Develop `01_clean.R` (tidy, derive carbon-intensity & renewable shares)<br>• Push processed CSVs | • Run QA checks on missing values & units<br>• Create quick EDA plots for sanity check | `/data/processed/*.csv`; `explore.qmd` with validation plots |
-| 3 | • Compute metrics for RQ 1 & 2 (dplyr)<br>• Build core ggplots (line, slopegraph, small-multiple)<br>• Refine colour palette & annotation | • Test charts for readability on mobile & dark-mode<br>• Draft narrative captions | `analysis.qmd` with polished static charts & captions |
+| 2 | • Develop `01_clean.Rmd` (tidy, derive carbon-intensity & renewable shares)<br>• Push processed CSVs | • Run QA checks on missing values & units<br>• Create quick EDA plots for sanity check | Processed CSVs; `01_clean.html` with validation plots |
+| 3 | • Compute metrics for RQ 1 & 2 (dplyr)<br>• Build core ggplots (line, slopegraph, small-multiple)<br>• Refine colour palette & annotation | • Test charts for readability on mobile & dark-mode<br>• Draft narrative captions | `energy_transition_dashboard.Rmd` with polished static charts & captions |
 | 4 | • Assemble Shiny/Quarto dashboard (filters, Net-Zero summary panel)<br>• Write final report/proposal PDF | • Style dashboard UI, add accessibility labels<br>• Proof-read report & references | Deployable dashboard folder; `proposal.pdf` ready for submission |
 
 
