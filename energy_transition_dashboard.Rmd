@@ -1,0 +1,1189 @@
+---
+title: "Energy Transition Dashboard"
+subtitle: "Renewable Growth and Emissions Reduction Analysis"
+author: "Data Analysis Team"
+date: "May 23, 2025"
+output:
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    theme: cosmo
+    css: styles.css
+    source_code: embed
+    vertical_layout: fill
+runtime: shiny
+editor_options:
+  markdown:
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+# Load required packages
+library(flexdashboard)
+library(shiny)
+library(dplyr)
+library(ggplot2)
+library(plotly)
+library(readr)
+library(tidyr)
+library(forcats)
+library(viridis)
+library(scales)
+library(bslib)
+library(DT)
+library(ggrepel)  # Add ggrepel for better label placement
+
+# Set overall theme for consistent plotting
+theme_set(theme_minimal(base_size = 12))
+
+# Set custom color palettes for better readability and accessibility
+renewable_palette <- viridis(8, option = "D")
+region_palette <- viridis(6, option = "H", begin = 0.1, end = 0.9)
+emission_palette <- viridis(10, option = "B")
+
+# Color-blind friendly palette for binary contrasts
+binary_palette <- c("#0072B2", "#D55E00")
+
+# Define constant values
+NET_ZERO_YEAR <- 2050
+RENEWABLE_THRESHOLD <- 60 # 60% renewable energy target
+CURRENT_YEAR <- 2022 # Latest data in our dataset
+EARLIEST_YEAR <- 2015 # For historical analysis
+
+# Load the merged dataset - using explicit readr::read_csv to avoid namespace issues
+merged_data <- readr::read_csv("energy_emissions_merged_2015_2022.csv")
+  
+# Load continent and development status aggregated data
+continent_data <- readr::read_csv("continent_aggregated_2015_2022.csv")
+development_data <- readr::read_csv("development_aggregated_2015_2022.csv")
+
+# Print column names for continent data to help diagnose issues
+print("Columns in continent_data:")
+print(names(continent_data))
+print("First few rows of continent_data:")
+print(head(continent_data))
+
+# Use continent_data directly as we already have data from 2015
+continent_data_extended <- continent_data
+
+# Prepare datasets for the research questions
+
+# Print diagnostics to understand available columns
+print("Available columns in continent_data_extended:")
+print(names(continent_data_extended))
+
+# RQ1: Renewable Share Trajectory
+# Calculate growth rates and project future renewable share by region
+# First check if the renewables_share column exists
+if (!"renewables_share" %in% names(continent_data_extended)) {
+  # Try to find an alternative column that might have the renewable share data
+  possible_columns <- c("calc_renewables_share_energy", "renewables_share_energy", "renewable_share")
+  for (col in possible_columns) {
+    if (col %in% names(continent_data_extended)) {
+      print(paste("Using", col, "as a substitute for renewables_share"))
+      continent_data_extended$renewables_share <- continent_data_extended[[col]]
+      break
+    }
+  }
+}
+
+rq1_data <- continent_data_extended %>%
+  filter(!is.na(renewables_share)) %>%
+  arrange(continent, year)
+
+# Print diagnostic info about rq1_data
+print("Structure of rq1_data:")
+print(str(rq1_data))
+
+# Calculate compound annual growth rates (CAGR) for renewable share
+rq1_growth_rates <- rq1_data %>%
+  group_by(continent) %>%
+  summarize(
+    min_year = min(year),
+    max_year = max(year),
+    start_value = renewables_share[year == min(year)],
+    end_value = renewables_share[year == max(year)],
+    years_diff = max_year - min_year,
+    # Compound Annual Growth Rate (CAGR) formula: (end/start)^(1/years) - 1
+    renewable_share_cagr = (end_value/start_value)^(1/years_diff) - 1,
+    # Simple annual percentage point change
+    annual_pp_change = (end_value - start_value) / years_diff,
+    .groups = "drop"
+  )
+
+# Generate projected values based on both CAGR and linear trends
+projection_years <- seq(CURRENT_YEAR + 1, NET_ZERO_YEAR)
+
+# Function to generate projections for a continent
+generate_continent_projections <- function(cont_name, base_data, growth_rates) {
+  growth_info <- growth_rates %>% filter(continent == cont_name)
+  
+  if(nrow(growth_info) == 0) {
+    return(NULL)
+  }
+  
+  last_value <- base_data %>% 
+    filter(continent == cont_name, year == max(year)) %>% 
+    pull(renewables_share)
+  
+  if(length(last_value) == 0) {
+    return(NULL)
+  }
+  
+  # Generate both compound growth and linear projections
+  tibble(
+    continent = cont_name,
+    year = projection_years,
+    # CAGR-based projection
+    cagr_projection = last_value * (1 + growth_info$renewable_share_cagr)^(year - CURRENT_YEAR),
+    # Linear projection
+    linear_projection = last_value + growth_info$annual_pp_change * (year - CURRENT_YEAR),
+    # Use linear by default (tends to be more conservative for exponential trends)
+    renewables_share = linear_projection,
+    projection_type = "linear"
+  )
+}
+
+# Create projections for each continent
+continent_projections <- bind_rows(
+  lapply(unique(rq1_growth_rates$continent), function(c) {
+    generate_continent_projections(c, rq1_data, rq1_growth_rates)
+  })
+) %>%
+  # Ensure projection_type is not NULL
+  mutate(projection_type = ifelse(is.na(projection_type), "linear", projection_type))
+
+# Combine historical data with projections for visualization
+# First, verify that continent_projections contains the expected columns
+print("Checking continent_projections columns:")
+print(names(continent_projections))
+
+# Create a safe version of the historical data
+historical_data <- rq1_data %>% 
+  select(continent, year, renewables_share) %>%
+  mutate(projection_type = "historical")
+
+# Create a safe version of the projection data
+if (nrow(continent_projections) > 0 && "projection_type" %in% names(continent_projections)) {
+  projection_data <- continent_projections %>%
+    select(continent, year, renewables_share, projection_type)
+} else {
+  # If projection_type is missing, create it
+  warning("projection_type column missing in continent_projections")
+  projection_data <- if (nrow(continent_projections) > 0) {
+    continent_projections %>%
+      select(continent, year, renewables_share) %>%
+      mutate(projection_type = "linear")
+  } else {
+    # If no projections available, create empty tibble with correct structure
+    tibble(
+      continent = character(),
+      year = numeric(),
+      renewables_share = numeric(),
+      projection_type = character()
+    )
+  }
+}
+
+# Now bind them together
+rq1_viz_data <- bind_rows(historical_data, projection_data) %>%
+  # Ensure all rows have a projection_type
+  mutate(projection_type = ifelse(is.na(projection_type), "historical", projection_type))
+
+# Print diagnostic information about the visualization data
+print("Structure of rq1_viz_data:")
+print(str(rq1_viz_data))
+print("Column names in rq1_viz_data:")
+print(names(rq1_viz_data))
+print("Unique values of projection_type:")
+print(unique(rq1_viz_data$projection_type))
+
+# Calculate the year when each continent would reach 60% renewable
+# First, print diagnostic information
+print("Structure of continent_projections:")
+print(str(continent_projections))
+print("Unique continents in continent_projections:")
+print(unique(continent_projections$continent))
+print("Summary of renewable share values:")
+print(summary(continent_projections$renewables_share))
+
+renewable_threshold_years <- continent_projections %>%
+  group_by(continent) %>%
+  filter(renewables_share >= RENEWABLE_THRESHOLD) %>%
+  summarize(
+    threshold_year = min(year),
+    .groups = "drop"
+  )
+
+# More diagnostics for the result
+print("Structure of renewable_threshold_years:")
+print(str(renewable_threshold_years))
+
+# RQ2: Renewable Growth vs Emission Decline
+# Identify the 10 largest emitters in the latest year
+latest_year <- max(merged_data$year, na.rm = TRUE)
+
+top_emitters <- merged_data %>%
+  filter(year == latest_year, !is.na(emissions)) %>%
+  arrange(desc(emissions)) %>%
+  head(10) %>%
+  pull(country)
+
+# Extract data for the top emitters
+rq2_data <- merged_data %>%
+  filter(country %in% top_emitters) %>%
+  select(country, year, renewables_consumption, emissions, calc_renewables_share_energy) %>%
+  arrange(country, year)
+
+# Calculate annual growth rates for renewable electricity and required emission reduction
+rq2_growth_rates <- rq2_data %>%
+  group_by(country) %>%
+  summarize(
+    start_year = min(year),
+    end_year = max(year),
+    start_renewables = renewables_consumption[year == min(year)],
+    end_renewables = renewables_consumption[year == max(year)],
+    start_emissions = emissions[year == min(year)],
+    end_emissions = emissions[year == max(year)],
+    
+    # Annual growth rate for renewables (CAGR)
+    renewable_growth_rate = (end_renewables / start_renewables)^(1/(end_year - start_year)) - 1,
+    
+    # Annual reduction rate for emissions (observed)
+    emission_reduction_rate = 1 - (end_emissions / start_emissions)^(1/(end_year - start_year)),
+    
+    # Required annual reduction rate to reach net zero by 2050 from the latest year
+    # Formula: 1 - (target/current)^(1/years_left)
+    # For net zero, target = 0, so formula simplifies to 1 - 0^(1/years_left) = 1
+    years_to_net_zero = NET_ZERO_YEAR - end_year,
+    required_reduction_rate = 1 - (0.05 / end_emissions)^(1/years_to_net_zero), # assuming 95% reduction as "net zero"
+    
+    # Is current renewable growth sufficient?
+    is_renewable_growth_sufficient = renewable_growth_rate > required_reduction_rate,
+    
+    .groups = "drop"
+  ) %>%
+  mutate(
+    # Format rates as percentages for display
+    renewable_growth_pct = renewable_growth_rate * 100,
+    emission_reduction_pct = emission_reduction_rate * 100,
+    required_reduction_pct = required_reduction_rate * 100,
+    
+    # Gap between current and required rates
+    gap_pct = emission_reduction_pct - required_reduction_pct,
+    
+    # Order countries by emissions gap
+    country = fct_reorder(country, gap_pct)
+  )
+
+
+```
+
+# Overview {.sidebar}
+
+This dashboard analyzes global energy transition trends, focusing on two
+key research questions:
+
+### Research Questions
+
+**RQ1 – Renewable Share Trajectory**\
+How quickly has the share of renewables in primary energy grown since
+2015, and which regions are on track to cross the 60% renewables
+threshold before 2050?
+
+**RQ2: Renewable Growth vs Emission Decline**\
+For the ten largest emitters, does the average annual growth rate of
+renewable electricity generation (2015-2022) exceed the annual
+GHG-reduction rate required to hit Net-Zero by 2050?
+
+```{r sidebar_controls}
+# Empty sidebar controls section - region selection moved to Regional Renewable Share Trends
+```
+
+**Data Sources:**\
+- Our World in Data (OWID) - Energy consumption\
+- Climate Watch - Emissions data
+
+**Time Range:** 2015-2022 (historical data) with projections to 2050
+
+### Key Findings
+
+-   **Renewable Growth:** Europe and South America show the fastest
+    renewable energy adoption.\
+-   **Net-Zero Gap:** All large emitters need to accelerate their
+    renewable transition to meet 2050 targets. None are currently on
+    track.\
+-   **Regional Disparities:** Significant variation exists across
+    regions in renewable energy growth rates.
+
+# Renewable Share Trajectory {data-icon="fa-chart-line"}
+
+## Row {.tabset data-height="600"}
+
+### Regional Renewable Share Trends
+
+```{r regional_controls}
+# Region selection moved from sidebar to be directly with the regional trends plot
+selectInput(
+  "region_select", 
+  "Select Region for Detailed View:", 
+  choices = c("All Regions", unique(as.character(rq1_viz_data$continent))),
+  selected = "All Regions"
+)
+```
+
+```{r regional_trends}
+renderPlotly({
+  # Make a copy of rq1_viz_data to avoid modifying the original
+  local_viz_data <- rq1_viz_data
+  
+  # Diagnostic: Check column names and data structure
+  print("Original column names in rq1_viz_data:")
+  print(names(rq1_viz_data))
+  print("First few rows of rq1_viz_data:")
+  print(head(rq1_viz_data))
+  
+  # Ensure projection_type column exists
+  if (!"projection_type" %in% names(local_viz_data)) {
+    message("Adding missing projection_type column to local_viz_data")
+    local_viz_data <- local_viz_data %>% 
+      mutate(projection_type = factor("historical", levels = c("historical", "linear")))
+  } else {
+    local_viz_data <- local_viz_data %>%
+      mutate(projection_type = factor(projection_type, levels = c("historical", "linear")))
+  }
+  
+  # Diagnostic: Verify projection_type
+  print("Unique values of projection_type in local_viz_data:")
+  print(unique(local_viz_data$projection_type))
+  
+  # Filter based on region selection
+  filtered_data <- if (input$region_select == "All Regions") {
+    local_viz_data
+  } else {
+    local_viz_data %>% filter(continent == input$region_select)
+  }
+  
+  # Diagnostic: Check filtered_data
+  print("Column names in filtered_data:")
+  print(names(filtered_data))
+  print("First few rows of filtered_data:")
+  print(head(filtered_data))
+  print("Unique values of projection_type in filtered_data:")
+  print(unique(filtered_data$projection_type))
+  
+  # Ensure projection_type exists in filtered_data
+  if (!"projection_type" %in% names(filtered_data)) {
+    message("Adding missing projection_type column to filtered_data")
+    filtered_data <- filtered_data %>% 
+      mutate(projection_type = factor("historical", levels = c("historical", "linear")))
+  } else {
+    filtered_data <- filtered_data %>%
+      mutate(projection_type = factor(projection_type, levels = c("historical", "linear")))
+  }
+  
+  # Filter out NA values
+  filtered_data <- filtered_data %>%
+    filter(!is.na(year), !is.na(renewables_share), !is.na(continent), !is.na(projection_type))
+  
+  # Diagnostic: Check filtered_data after NA removal
+  print("Rows in filtered_data after NA removal:")
+  print(nrow(filtered_data))
+  print("Unique projection_type values after NA removal:")
+  print(unique(filtered_data$projection_type))
+  
+  # Check for valid data
+  if (nrow(filtered_data) == 0 || all(is.na(filtered_data$renewables_share))) {
+    p <- ggplot() +
+      annotate("text", x = 0.5, y = 0.5, label = "No data available for selected region", size = 5) +
+      theme_void()
+    return(ggplotly(p))
+  }
+  
+  # Create the plot with geom_text instead of geom_label_repel
+  p <- ggplot(filtered_data, aes(x = year, y = renewables_share, color = continent)) +
+    geom_line(aes(linetype = projection_type), linewidth = 1.2) +
+    geom_hline(yintercept = RENEWABLE_THRESHOLD, linetype = "dashed", color = "gray60") +
+    annotate("text", x = 2025, y = RENEWABLE_THRESHOLD + 2, 
+             label = "60% Renewable Target", color = "gray40") +
+    geom_point(data = renewable_threshold_years %>% 
+                 inner_join(continent_projections, by = "continent") %>%
+                 filter(year == threshold_year),
+               aes(x = threshold_year, y = RENEWABLE_THRESHOLD),
+               size = 3, shape = 21, fill = "white") +
+    # Use geom_text with manual positioning to avoid overlap
+    geom_text(data = renewable_threshold_years %>% 
+                filter(!is.na(threshold_year)),
+              aes(x = threshold_year, y = RENEWABLE_THRESHOLD + 5, 
+                  label = sprintf("%s: %d", continent, threshold_year)),
+              size = 3, vjust = -0.5, hjust = 0.5, check_overlap = TRUE) +
+    scale_x_continuous(breaks = seq(2015, 2050, by = 5)) +
+    scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10)) +
+    scale_color_manual(values = region_palette) +
+    scale_linetype_manual(
+      values = c("historical" = "solid", "linear" = "dashed"),
+      labels = c("historical" = "Historical Data", "linear" = "Projected Trend"),
+      drop = FALSE
+    ) +
+    labs(title = "Renewable Energy Share by Region (2015-2050)",
+         subtitle = "Historical trends and projections toward 60% renewable energy target",
+         x = "Year", 
+         y = "Renewable Share (%)",
+         color = "Region",
+         linetype = "Data Type") +
+    theme(legend.position = "bottom",
+          panel.grid.minor = element_blank(),
+          axis.text.x = element_text(angle = 45, hjust = 1))
+  
+  # Convert to plotly with simplified legend handling
+  plt <- ggplotly(p, tooltip = c("continent", "year", "renewables_share", "projection_type"))
+  
+  # Diagnostic: Inspect Plotly object structure
+  print("Plotly object structure before layout:")
+  print(str(plt$x$data, max.level = 2))
+    # Manually adjust legend and improve display
+  plt <- plt %>% 
+    layout(
+      legend = list(
+        title = list(text = "Region / Data Type"),
+        orientation = "h",
+        y = -0.2,
+        x = 0.5,
+        xanchor = "center"
+      ),
+      margin = list(b = 150, l = 60, r = 40, t = 80),
+      autosize = TRUE,
+      height = 500
+    )
+  
+  plt
+})
+```
+
+### Regional Growth Rates
+
+```{r growth_rates}
+renderPlotly({    p <- ggplot(rq1_growth_rates, aes(x = fct_reorder(continent, annual_pp_change), 
+                                  y = annual_pp_change, 
+                                  fill = continent)) +
+    geom_bar(stat = "identity", width = 0.7) +
+    geom_text(aes(label = sprintf("%.2f pp/year", annual_pp_change)), 
+              hjust = -0.1, size = 3.5) + # size is still valid for text
+    coord_flip() +
+    scale_fill_manual(values = region_palette) +
+    labs(title = "Annual Renewable Share Growth by Region",
+         subtitle = "Average percentage point increase per year",
+         x = NULL, 
+         y = "Annual Percentage Point Change",
+         fill = "Region") +
+    theme(legend.position = "none",
+          panel.grid.major.y = element_blank())
+    # Convert to plotly with improved layout for better display
+  ggplotly(p, tooltip = c("continent", "annual_pp_change")) %>%
+    layout(
+      margin = list(r = 150, l = 40, b = 50, t = 80),
+      autosize = TRUE,
+      height = 450
+    )
+})
+```
+
+### Threshold Achievement Table
+
+```{r threshold_table}
+renderDataTable({
+  # Combine growth rate and threshold year data
+  threshold_table <- rq1_growth_rates %>%
+    left_join(renewable_threshold_years, by = "continent") %>%
+    mutate(
+      current_share = end_value,
+      years_to_threshold = ifelse(is.na(threshold_year), NA, threshold_year - max_year),
+      status = case_when(
+        is.na(threshold_year) ~ "Not on track by 2050",
+        threshold_year <= 2030 ~ "On track (<2030)",
+        threshold_year <= 2040 ~ "Moderate progress (2030-2040)",
+        threshold_year <= 2050 ~ "Slow progress (2040-2050)",
+        TRUE ~ "Not on track by 2050"
+      )
+    ) %>%
+    select(
+      Continent = continent, 
+      `Current Share (%)` = current_share,
+      `Annual Growth (pp)` = annual_pp_change,
+      `Projected Achievement Year` = threshold_year,
+      `Years to Target` = years_to_threshold,
+      Status = status    )
+  
+  # Format the table for display
+  datatable(
+    threshold_table,
+    options = list(
+      pageLength = 6,
+      dom = 'ft',
+      ordering = TRUE
+    ),
+    rownames = FALSE
+  ) %>%
+    formatRound(columns = c("Current Share (%)", "Annual Growth (pp)"), digits = 2) %>%
+    formatStyle(
+      'Status',
+      backgroundColor = styleEqual(
+        c("On track (<2030)", "Moderate progress (2030-2040)", 
+          "Slow progress (2040-2050)", "Not on track by 2050"),
+        c('#a1d99b', '#fee8c8', '#fdbb84', '#e34a33')
+      )
+    )
+})
+```
+
+## Row {data-height="300"}
+
+### Historical Context
+
+The global shift toward renewable energy has accelerated considerably
+since 2015, with regional variations reflecting different energy
+policies, resource availability, and economic factors. Europe has
+consistently led in renewable energy adoption, driven by strong policy
+frameworks like the European Green Deal. South America benefits from
+abundant hydroelectric resources, contributing to its high renewable
+share.
+
+Projections based on historical growth rates show which regions are
+likely to achieve the 60% renewable threshold by 2050 - a critical
+benchmark for meeting the Paris Agreement goals and limiting global
+warming to 1.5°C. Notably, regions with already substantial renewable
+penetration (like South America) or strong policy frameworks (like
+Europe) show faster transition trajectories.
+
+### Methodology Notes
+
+This analysis uses historical data from 2015-2022 and projects renewable
+energy share based on observed growth rates. Two projection methods were
+considered:
+
+1.  **Compound Annual Growth Rate (CAGR)** - Accounts for exponential
+    growth patterns
+2.  **Linear Annual Growth** - Projects based on average percentage
+    point increase per year
+
+The dashboard presents linear projections as the default view as they
+tend to provide more conservative estimates for policy planning
+purposes. The 60% renewable threshold was selected based on the
+International Energy Agency (IEA) and IPCC recommendations for energy
+system transformation compatible with 1.5°C pathways.
+
+# Emissions Gap Analysis {data-icon="fa-industry"}
+
+## Row
+
+### Top Emitters' Renewable Growth vs Required Reduction {.tabset}
+
+#### Chart
+
+```{r emissions_gap}
+renderPlotly({  
+  # Sort the data by emissions to match the order in the table
+  sorted_data <- rq2_growth_rates %>%
+    arrange(desc(end_emissions))
+  
+  p <- ggplot(sorted_data, aes(y = reorder(country, end_emissions))) +    # Current emission reduction rate
+    geom_segment(aes(x = 0, xend = emission_reduction_pct, yend = country, 
+                    color = "Current Reduction Rate"),
+                linewidth = 5, alpha = 0.7) +    # Required emission reduction rate - using solid vertical lines with clear markers
+    geom_segment(aes(x = required_reduction_pct, xend = required_reduction_pct,
+                    y = as.numeric(reorder(country, end_emissions)) - 0.4, 
+                    yend = as.numeric(reorder(country, end_emissions)) + 0.4,
+                    color = "Required for Net-Zero"),
+                linewidth = 1.5, alpha = 0.9) +
+    # Add arrow markers to highlight required reduction targets
+    geom_point(aes(x = required_reduction_pct, y = reorder(country, end_emissions), 
+                  color = "Required for Net-Zero"),
+              size = 4, shape = 18) + # Using diamond shape for better visibility
+    # Renewable growth rate marker 
+    geom_point(aes(x = renewable_growth_pct, y = reorder(country, end_emissions), 
+                  color = "Renewable Growth Rate"),
+              size = 5, shape = 16) + # Using circle shape for visibility
+    # Add vertical lines for renewable growth rate for better comparison
+    geom_segment(aes(x = renewable_growth_pct, xend = renewable_growth_pct, 
+                   y = as.numeric(reorder(country, end_emissions)) - 0.3, 
+                   yend = as.numeric(reorder(country, end_emissions)) + 0.3,
+                   color = "Renewable Growth Rate"),
+                linewidth = 1, alpha = 0.8) +
+    
+    # Gap indicators - clearer formatting
+    geom_text(aes(x = pmax(emission_reduction_pct, required_reduction_pct) + 1,
+                y = reorder(country, end_emissions),
+                label = sprintf("Emission Gap: %.1f%%", gap_pct),
+                color = if_else(gap_pct >= 0, "Sufficient", "Insufficient")),
+             hjust = 0, size = 3.5, fontface = "bold") +
+    # Clearer annotation comparing renewable growth with required reduction
+    geom_text(aes(x = renewable_growth_pct + 0.5,
+                y = as.numeric(reorder(country, end_emissions)) + 0.25,
+                label = sprintf("Renewable Growth: %.1f%% (%.1f%% of required)", 
+                              renewable_growth_pct, 
+                              ifelse(required_reduction_pct > 0, renewable_growth_pct/required_reduction_pct*100, 0)),
+                color = if_else(renewable_growth_pct >= required_reduction_pct, "Sufficient", "Insufficient")),
+             hjust = 0, size = 2.7) +    
+    scale_color_manual(values = c("Current Reduction Rate" = "#3182bd", 
+                                 "Required for Net-Zero" = "#E65100",  # Changed to orange for better visibility
+                                 "Renewable Growth Rate" = "#31a354",
+                                 "Sufficient" = "#31a354",
+                                 "Insufficient" = "#de2d26"),
+                      name = "Metrics") +
+    scale_x_continuous(limits = c(-5, 40)) +
+    labs(title = "Emission Reduction Gap for Top 10 Emitters",
+         subtitle = "Current vs Required Annual Reduction Rates (%) - All 10 Top Emitters Not on Track",
+         x = "Annual Rate (%) - Negative values indicate increasing emissions",
+         y = NULL) +
+    theme(legend.position = "bottom",
+          panel.grid.minor = element_blank())
+  
+  ggplotly(p) %>%
+    layout(margin = list(l = 120, r = 120))  # Add margin for labels
+})
+```
+
+#### Explanation
+
+```{r chart_explanation, echo=FALSE}
+HTML('
+<div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+  <p>This chart compares three key metrics for the top 10 global emitters:</p>
+  <ul>
+    <li><b style="color: #3182bd;">Blue bars</b> show each country\'s current annual emission reduction rate (negative values indicate increasing emissions)</li>
+    <li><b style="color: #E65100;">Orange vertical lines and diamonds</b> show the required annual reduction rate to reach net-zero by 2050</li>
+    <li><b style="color: #31a354;">Green circles</b> show each country\'s renewable energy growth rate</li>
+    <li><b>Emission Gap</b> shows the difference between current and required reduction rates (all are negative, indicating no country is on track)</li>
+    <li><b>Renewable Growth</b> shows both the percentage growth and what percentage of the required reduction rate this represents</li>
+  </ul>
+  <p><b>Note:</b> The comparison between renewable growth and required reduction helps assess whether countries\' clean energy transition is proceeding fast enough to support their net-zero goals.</p>
+</div>
+')
+```
+
+## Row {.tabset}
+
+### Detailed Metrics Table
+
+```{r metrics_table}
+renderDataTable({
+  # Order by emissions to match the emissions gap chart
+  ordered_data <- rq2_growth_rates %>%
+    arrange(desc(end_emissions))
+    
+  metrics_table <- ordered_data %>%
+    select(
+      Country = country,
+      `Latest Emissions (Mt)` = end_emissions,
+      `Renewable Growth Rate (%)` = renewable_growth_pct,
+      `Current Emission Reduction (%)` = emission_reduction_pct,
+      `Required Reduction Rate (%)` = required_reduction_pct,
+      `Gap (% points)` = gap_pct,
+      `On Track?` = is_renewable_growth_sufficient
+    )
+  
+  datatable(
+    metrics_table,
+    options = list(
+      pageLength = 10,
+      dom = 'ft',
+      ordering = TRUE
+    ),
+    rownames = FALSE
+  ) %>%
+    formatRound(columns = c("Latest Emissions (Mt)"), digits = 0) %>%
+    formatRound(columns = c("Renewable Growth Rate (%)", 
+                           "Current Emission Reduction (%)",
+                           "Required Reduction Rate (%)",
+                           "Gap (% points)"), digits = 2) %>%
+    formatStyle(
+      'Gap (% points)',
+      backgroundColor = styleInterval(
+        c(0),
+        c('#fb6a4a', '#a1d99b')
+      ),
+      color = styleInterval(
+        c(0),
+        c('white', 'black')
+      )
+    ) %>%
+    formatStyle(
+      'On Track?',
+      backgroundColor = styleEqual(
+        c(TRUE, FALSE),
+        c('#a1d99b', '#fb6a4a')
+      )
+    )
+})
+```
+
+### Renewable Adoption Trajectories
+
+```{r renewable_trajectories}
+renderPlotly({
+  # Get ordered countries based on emissions (matching main emissions gap chart)
+  ordered_countries <- rq2_growth_rates %>%
+    arrange(desc(end_emissions)) %>%
+    pull(country)
+  
+  # Create time series with consistent country ordering
+  ordered_data <- rq2_data %>%
+    mutate(country = factor(country, levels = ordered_countries))
+  
+  # Create time series for the top emitters
+  p <- ggplot(ordered_data, aes(x = year, y = calc_renewables_share_energy, 
+                          color = country, group = country)) +
+    geom_line(linewidth = 1.2) +
+    geom_point(size = 3) +
+    scale_color_viridis_d(option = "D") +
+    labs(title = "Renewable Energy Share Trends for Top Emitters",
+         subtitle = "Percentage of primary energy from renewable sources",
+         x = "Year",
+         y = "Renewable Share (%)",
+         color = "Country") +
+    theme(legend.position = "right")
+  
+  ggplotly(p, tooltip = c("country", "year", "calc_renewables_share_energy")) %>%
+    layout(legend = list(x = 1.05, y = 0.5))
+})
+```
+
+### Net-Zero Alignment
+
+```{r netzero_alignment}
+renderPlotly({
+  # Get ordered countries based on emissions (matching main emissions gap chart)
+  ordered_countries <- rq2_growth_rates %>%
+    arrange(desc(end_emissions)) %>%
+    pull(country)
+  
+  alignment_data <- rq2_growth_rates %>%
+    # Ensure countries are ordered by emissions
+    mutate(
+      country = factor(country, levels = ordered_countries),
+      alignment_cat = case_when(
+        gap_pct >= 5 ~ "Strong alignment",
+        gap_pct >= 0 ~ "Moderate alignment",
+        gap_pct >= -5 ~ "Slight misalignment",
+        TRUE ~ "Significant misalignment"
+      ),
+      alignment_cat = factor(alignment_cat, 
+                            levels = c("Strong alignment", "Moderate alignment", 
+                                       "Slight misalignment", "Significant misalignment"))
+    )
+  
+  p <- ggplot(alignment_data, 
+             aes(x = renewable_growth_pct, y = required_reduction_pct, 
+                 color = alignment_cat, label = country)) +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gray60") +
+    geom_point(size = 5, alpha = 0.8) +
+    geom_text(hjust = -0.1, vjust = 1, check_overlap = TRUE) +
+    scale_color_manual(values = c("Strong alignment" = "#1a9850", 
+                                 "Moderate alignment" = "#91cf60",
+                                 "Slight misalignment" = "#fc8d59", 
+                                 "Significant misalignment" = "#d73027")) +
+    labs(title = "Net-Zero Alignment Matrix",
+         subtitle = "Renewable growth rate vs. required emission reduction rate",
+         x = "Renewable Growth Rate (%/year)",
+         y = "Required Emission Reduction Rate (%/year)",
+         color = "Alignment Category") +
+    theme(legend.position = "bottom")
+  
+  ggplotly(p, tooltip = c("country", "renewable_growth_pct", "required_reduction_pct", "gap_pct"))
+})
+```
+
+## Row {data-height="250"}
+
+### Key Insights
+
+The analysis reveals a significant gap between current performance and
+Net-Zero requirements for major emitters. Key findings include:
+
+-   None of the 10 largest emitters are currently on track to meet
+    Net-Zero by 2050 based on their renewable energy growth rates.
+-   While most countries are increasing renewable capacity, the pace
+    generally falls short of what's needed for deep decarbonization.
+-   Industrialized nations like Germany and the UK show relatively
+    better alignment between renewable growth and emission reduction
+    targets compared to other major emitters, though they still face
+    significant gaps to Net-Zero.
+-   Several major Asian economies show rapid renewable deployment
+    growth, particularly Indonesia (20.98% annual renewable growth), but
+    from low baselines, creating a substantial gap with Net-Zero
+    requirements.
+
+### Methodological Approach
+
+This analysis compares three key metrics for each top emitter:
+
+1.  **Renewable Energy Growth Rate** - Annual percentage growth in
+    renewable electricity generation (2015-2022)
+2.  **Current Emission Reduction Rate** - Observed annual percentage
+    reduction in GHG emissions (2015-2022)
+3.  **Required Reduction Rate** - Annual percentage reduction needed
+    from current levels to reach Net-Zero by 2050
+
+The gap between current and required rates indicates the additional
+effort needed. A country is considered "on track" when its renewable
+growth rate exceeds the required emission reduction rate, suggesting its
+clean energy transition is proceeding at sufficient speed to support
+Net-Zero ambitions. Based on this methodology, our analysis shows that
+all major emitters currently have negative gaps, indicating significant
+additional efforts are needed across all countries to meet Net-Zero
+targets.
+
+# Data Explorer {data-icon="fa-table"}
+
+## Row {.tabset data-height="600"}
+
+### Interactive Data Explorer
+
+```{r data_explorer}
+# Create a filtered dataset for exploration
+explorer_data <- merged_data %>%
+  select(
+    Country = country,
+    Year = year,
+    Continent = continent,
+    `Development Status` = development_status,
+    `ISO Code` = iso_code,
+    Population = population,
+    GDP = gdp,
+    `Primary Energy (TWh)` = primary_energy_consumption,
+    `Fossil Fuel (TWh)` = fossil_fuel_consumption,
+    `Renewables (TWh)` = renewables_consumption,
+    `Emissions (Mt)` = emissions,
+    `Renewable Share (%)` = calc_renewables_share_energy,
+    `Fossil Share (%)` = calc_fossil_share_energy
+  )
+
+renderDataTable({
+  datatable(
+    explorer_data,
+    extensions = 'Buttons',
+    options = list(
+      pageLength = 15,
+      scrollX = TRUE,
+      dom = 'Bfrtip',
+      buttons = c('copy', 'csv', 'excel'),
+      ordering = TRUE,
+      searching = TRUE
+    ),
+    filter = 'top',
+    rownames = FALSE
+  ) %>%
+    formatRound(columns = c("Population", "GDP", "Primary Energy (TWh)", 
+                           "Fossil Fuel (TWh)", "Renewables (TWh)", "Emissions (Mt)"), 
+               digits = 2) %>%
+    formatRound(columns = c("Renewable Share (%)", "Fossil Share (%)"), 
+               digits = 1)
+})
+```
+
+## Row {data-height="400"}
+
+### Methodology and Data Sources
+
+**Data Sources:**\
+- **Energy Data**: Our World in Data (OWID) energy dataset, which
+compiles data from BP Statistical Review of World Energy and other
+sources\
+- **Emissions Data**: Climate Watch, which provides harmonized GHG
+emissions data by country and sector
+
+**Key Calculations:**\
+1. **Renewable Share**: Percentage of primary energy consumption from
+renewable sources (hydropower, solar, wind, geothermal, biomass)\
+2. **Growth Rates**: Compound Annual Growth Rate (CAGR) for renewable
+share and emission reductions\
+3. **Net-Zero Alignment**: Comparison of current trends with required
+trajectories to reach near-zero emissions by 2050
+
+**Limitations:**\
+- Historical data availability varies by country and region, with some
+developing nations having less complete records\
+- Projections assume continuation of current policy environments and
+technological trends\
+- The 60% renewable threshold is based on global models; optimal
+renewable share may vary by region depending on energy needs and
+available resources
+
+For detailed methodology, please refer to the accompanying research
+paper.
+
+```{css, echo=FALSE}
+/* Add custom CSS for mobile-responsive design and dark mode support */
+@media (max-width: 768px) {
+  .chart-stage {
+    overflow-x: auto;
+  }
+  
+  .chart-title {
+    font-size: 16px;
+  }
+  
+  .chart-subtitle {
+    font-size: 12px;
+  }
+}
+
+/* Vietnam case study specific styles */
+.metric-box {
+  padding: 15px;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  width: 22%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metric-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+
+```
+
+```{js, echo=FALSE}
+// JavaScript for handling mobile display
+$(document).ready(function() {
+  // Adjust plot sizes for mobile screens
+  function adjustForMobile() {
+    if(window.innerWidth < 768) {
+      $('.chart-stage').css('height', 'auto');
+    }
+  }
+  
+  // Run on page load and resize
+  adjustForMobile();
+  $(window).resize(adjustForMobile);
+});
+```
+
+# Vietnam Case Study {data-icon="fa-flag"}
+
+```{r vietnam_data_prep}
+# Extract Vietnam data
+vietnam_data <- merged_data %>%
+  filter(country == "Vietnam")
+
+# Calculate annual growth rates for Vietnam
+vietnam_growth <- vietnam_data %>%
+  arrange(year) %>%
+  mutate(
+    renewable_yoy_change = (renewables_consumption / lag(renewables_consumption) - 1) * 100,
+    renewable_share_yoy_change = calc_renewables_share_energy - lag(calc_renewables_share_energy),
+    emissions_yoy_change = (emissions / lag(emissions) - 1) * 100
+  )
+
+# Project Vietnam's renewable share to 2050
+vietnam_share_history <- vietnam_data %>%
+  select(year, renewables_share = calc_renewables_share_energy)
+
+# Calculate average annual percentage point change in renewable share
+vietnam_avg_change <- mean(vietnam_growth$renewable_share_yoy_change, na.rm = TRUE)
+
+# Project to 2050
+last_year <- max(vietnam_data$year)
+last_share <- vietnam_data$calc_renewables_share_energy[vietnam_data$year == last_year]
+
+vietnam_projection <- tibble(
+  year = (last_year + 1):2050,
+  renewables_share = last_share + vietnam_avg_change * (1:length((last_year + 1):2050))
+)
+
+# Combine historical and projected data
+vietnam_share_all <- bind_rows(
+  vietnam_share_history %>% mutate(type = "Historical"),
+  vietnam_projection %>% mutate(type = "Projected")
+)
+
+# Calculate when Vietnam might reach 60% threshold
+vietnam_threshold_year <- vietnam_projection %>%
+  filter(renewables_share >= 60) %>%
+  summarize(year = min(year)) %>%
+  pull(year)
+
+if(length(vietnam_threshold_year) == 0) {
+  vietnam_threshold_message <- "Not projected to reach 60% by 2050"
+} else {
+  vietnam_threshold_message <- paste0("Projected to reach 60% by ", vietnam_threshold_year)
+}
+
+# Calculate emission reduction needed for Vietnam
+vietnam_latest <- vietnam_data %>%
+  filter(year == max(year))
+
+vietnam_emissions_latest <- vietnam_latest$emissions
+years_to_2050 <- 2050 - max(vietnam_data$year)
+
+# Required annual reduction rate to reach net-zero by 2050
+vietnam_required_reduction <- (1 - (0.05/vietnam_emissions_latest)^(1/years_to_2050)) * 100
+
+# Current renewable growth rate
+vietnam_renewable_growth <- mean(tail(vietnam_growth$renewable_yoy_change, 3), na.rm = TRUE)
+
+# Current emission change rate
+vietnam_emission_change <- mean(tail(vietnam_growth$emissions_yoy_change, 3), na.rm = TRUE)
+
+# Gap between current and required
+vietnam_gap <- vietnam_emission_change + vietnam_required_reduction
+```
+
+## Row {.tabset}
+
+### Vietnam's Renewable Transition
+
+```{r vietnam_renewable_plot}
+renderPlotly({  p <- ggplot(vietnam_share_all, aes(x = year, y = renewables_share, color = type, group = 1)) +
+    geom_line(linewidth = 1.5) +
+    geom_point(data = filter(vietnam_share_all, type == "Historical"), size = 3) +
+    geom_hline(yintercept = 60, linetype = "dashed", color = "darkgrey") +
+    annotate("text", x = 2030, y = 62, label = "60% Renewable Target", color = "darkgrey") +
+    scale_color_manual(values = c("Historical" = "#1976D2", "Projected" = "#FF7043")) +
+    scale_x_continuous(breaks = seq(2015, 2050, by = 5)) +
+    labs(title = "Vietnam's Renewable Energy Share Trajectory",
+         subtitle = paste0("Historical data (2015-2022) and projection to 2050 - ", vietnam_threshold_message),
+         x = "Year",
+         y = "Renewable Share (%)",
+         color = "Data Type") +
+    theme_minimal() +
+    theme(legend.position = "bottom")
+  
+  ggplotly(p) %>%
+    layout(
+      hovermode = "x unified",
+      autosize = TRUE,
+      height = 450
+    )
+})
+```
+
+### Emission Trends and Challenges
+
+```{r vietnam_emissions_plot}
+renderPlotly({  p <- ggplot(vietnam_data, aes(x = year, y = emissions)) +
+    geom_line(linewidth = 1.5, color = "#E53935") +
+    geom_point(size = 3, color = "#E53935") +
+    geom_smooth(method = "lm", formula = 'y ~ x', se = FALSE, linetype = "dashed", color = "darkgrey") +
+    scale_x_continuous(breaks = seq(2015, 2022, by = 1)) +
+    labs(title = "Vietnam's GHG Emissions (2015-2022)",
+         subtitle = paste0("Current trend vs. required reduction for Net-Zero (", round(vietnam_required_reduction, 1), "% annual reduction needed)"),
+         x = "Year",
+         y = "Emissions (Mt CO2e)") +
+    theme_minimal()
+  
+  ggplotly(p) %>%
+    layout(
+      hovermode = "x unified",
+      autosize = TRUE,
+      height = 450
+    )
+})
+```
+
+### Energy Mix Evolution
+
+```{r vietnam_energy_mix}
+renderPlotly({    # Prepare energy mix data
+  energy_mix <- vietnam_data %>%
+    select(year, 
+           Coal = calc_coal_share_energy, 
+           Oil = calc_oil_share_energy, 
+           Gas = calc_gas_share_energy, 
+           Nuclear = calc_nuclear_share_energy,
+           Hydro = calc_hydro_share_energy, 
+           Solar = calc_solar_share_energy, 
+           Wind = calc_wind_share_energy,
+           Other = calc_other_renewable_share_energy) %>%
+    pivot_longer(cols = -year, names_to = "source", values_to = "share")
+    
+  # Create the plot  
+  p <- ggplot(energy_mix, aes(x = year, y = share, fill = source)) +
+    geom_area() +
+    scale_fill_viridis_d(option = "turbo") +
+    labs(title = "Vietnam's Energy Mix Evolution (2015-2022)",
+         subtitle = "Share of primary energy by source (%)",
+         x = "Year", 
+         y = "Share (%)",
+         fill = "Energy Source") +
+    theme_minimal() +
+    theme(legend.position = "bottom")
+  
+  ggplotly(p) %>%
+    layout(
+      hovermode = "x unified",
+      autosize = TRUE,
+      height = 450
+    )
+})
+```
+
+## Row {data-height="250"}
+
+### Vietnam's Energy Transition Story
+
+Vietnam has experienced significant changes in its energy landscape
+between 2015-2022. Starting with a relatively low renewable share of
+primary energy at around 18% in 2015, the country has shown impressive
+growth, reaching approximately 27.5% in 2022. This growth has been
+driven particularly by rapid expansion of solar and wind capacity in
+recent years.
+
+Key observations:
+
+1.  **Renewable growth acceleration**: Vietnam's renewable share growth
+    has accelerated, especially after 2019, with significant increases
+    in solar deployment.
+
+2.  **Emission challenges**: Despite renewable growth, Vietnam's total
+    emissions have continued to rise due to economic and population
+    growth, creating a substantial gap with Net-Zero requirements.
+
+3.  **Regional context**: As part of the Asia region, Vietnam follows
+    similar trends, but with a faster renewable adoption rate than many
+    regional peers.
+
+4.  **Policy implications**: Vietnam's National Power Development Plan
+    aims to increase the share of renewables significantly, but
+    achieving the 60% threshold by 2050 will require sustained policy
+    support and investment.
+
+### Vietnam's Net-Zero Gap Analysis
+
+```{r vietnam_gap_analysis}
+renderUI({
+  gap_color <- if(vietnam_gap >= 0) "#4CAF50" else "#F44336"
+  
+  HTML(paste0(
+    "<div style='display: flex; justify-content: space-around; text-align: center;'>",
+    
+    "<div class='metric-box'>",
+    "<h4>Current Renewable Growth</h4>",
+    "<p style='font-size: 24px; font-weight: bold; color: #2196F3;'>", round(vietnam_renewable_growth, 1), "%</p>",
+    "<p>Annual increase</p>",
+    "</div>",
+    
+    "<div class='metric-box'>",
+    "<h4>Current Emission Trend</h4>",
+    "<p style='font-size: 24px; font-weight: bold; color: #FF9800;'>", round(vietnam_emission_change, 1), "%</p>",
+    "<p>Annual change</p>",
+    "</div>",
+    
+    "<div class='metric-box'>",
+    "<h4>Required Reduction</h4>",
+    "<p style='font-size: 24px; font-weight: bold; color: #F44336;'>", round(vietnam_required_reduction, 1), "%</p>",
+    "<p>For Net-Zero by 2050</p>",
+    "</div>",
+    
+    "<div class='metric-box'>",
+    "<h4>Net-Zero Gap</h4>",
+    "<p style='font-size: 24px; font-weight: bold; color: ", gap_color, ";'>", round(vietnam_gap, 1), "%</p>",
+    "<p>", ifelse(vietnam_gap >= 0, "On track", "Additional reduction needed"), "</p>",
+    "</div>",
+    
+    "</div>"
+  ))
+})
+```

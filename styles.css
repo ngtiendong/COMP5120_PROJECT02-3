@@ -10,6 +10,23 @@ h1, h2, h3, h4 {
   font-weight: 600;
 }
 
+/* Custom styling for navbar header text */
+.navbar-brand {
+  font-weight: 700;
+  color: #2c3e50 !important;
+  letter-spacing: 0.5px;
+  font-size: 1.4rem;
+}
+
+.navbar-author, 
+.navbar-subtitle {
+  font-weight: 400;
+  color: #34495e !important;
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+  padding-left: 10px;
+}
+
 /* Theme toggling */
 .light-theme {
   --bg-color: #ffffff;
@@ -46,6 +63,31 @@ body {
 .navbar, .navbar-inverse {
   background-color: var(--header-bg, #e9ecef);
   border-color: var(--border-color, #dee2e6);
+}
+
+/* Custom styling for top-level navigation tabs */
+.navbar-nav > li > a {
+  color: #2c3e50 !important;
+  font-weight: 600;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, rgba(0,0,0,0.05) 100%);
+  border-radius: 4px 4px 0 0;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.navbar-nav > li > a:hover, 
+.navbar-nav > li > a:focus {
+  background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(0,0,0,0.08) 100%);
+  border-bottom: 3px solid #3498db;
+  color: #1a5276 !important;
+}
+
+.navbar-nav > .active > a, 
+.navbar-nav > .active > a:focus, 
+.navbar-nav > .active > a:hover {
+  background: linear-gradient(to bottom, rgba(255,255,255,0.4) 0%, rgba(52, 152, 219, 0.15) 100%) !important;
+  border-bottom: 3px solid #2980b9 !important;
+  color: #1a5276 !important;
 }
 
 .well, .chart-wrapper {
